@@ -1,0 +1,1118 @@
+/*
+ * custom.css — DTO Tracker visual overrides
+ *
+ * This file fine-tunes the Shiny app's appearance to match twinpolitics.eu.
+ * Colour and font variables are set in global.R → THEME SETTINGS.
+ * Use this file for anything that bslib's bs_theme() doesn't cover directly.
+ *
+ * Colour reference (TwinPolitics official style guide, Living Creation 2024):
+ *   Brand blues (light to dark):
+ *     #00BADE  (brightest brand cyan)
+ *     #009EE3  (brand cyan, accent)
+ *     #007BC3  (brand mid-blue)
+ *     #006AB4  (brand blue, primary: buttons/links/active)
+ *     #002F62  (brand deep navy, headings)
+ *   Non-brand neutrals (from twinpolitics.eu site CSS):
+ *     #ffffff  (white)
+ *     #363c42  (dark charcoal)
+ *     #e7ecf0  (light blue-grey)
+ *     #212326  (near-black, body text)
+ *     #141617  (darkest)
+ *
+ * Fonts:
+ *   "Open Sans"  — body text (--body_typography-font-family)
+ *   "Inter"      — headings and nav (--awb-typography1-font-family)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Inter:wght@500;600&display=swap');
+
+
+/* =============================================================================
+   GLOBAL / BODY
+============================================================================= */
+
+body {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;           /* --body_typography-font-size: 18px — slightly reduced for dashboard density */
+  font-weight: 400;
+  line-height: 1.7em;        /* matches --body_typography-line-height */
+  letter-spacing: 0.015em;   /* matches --body_typography-letter-spacing */
+  color: #212326;            /* --awb-color7 */
+  background-color: #ffffff;
+}
+
+
+/* =============================================================================
+   HEADINGS
+   Match twinpolitics.eu heading styles (Open Sans, deep navy)
+============================================================================= */
+
+h1, h2, h3, h4 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  color: #002F62;            /* --awb-color3 deep navy */
+  line-height: 1.2;
+}
+
+h5, h6 {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;          /* --awb-typography1-font-weight */
+  color: #141617;            /* --awb-color8 */
+  letter-spacing: -0.015em;  /* --awb-typography1-letter-spacing */
+}
+
+
+/* =============================================================================
+   NAVBAR
+   White background with dark nav text, matching the site's top navigation.
+   A subtle bottom border replaces the shadow used on the main site.
+============================================================================= */
+
+.navbar {
+  border-bottom: 2px solid #e7ecf0;  /* light blue-grey separator */
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+.navbar-brand {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #002F62 !important;   /* deep navy brand name */
+  letter-spacing: 0.01em;
+}
+
+/* Nav links */
+.navbar .nav-link {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;             /* --awb-typography3-font-size */
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  color: #141617 !important;   /* --awb-color8 */
+  padding: 0.5rem 1rem;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: #006AB4 !important;   /* medium blue on hover/active */
+}
+
+/* Active tab underline accent */
+.navbar .nav-link.active {
+  border-bottom: 3px solid #006AB4;
+}
+
+
+/* =============================================================================
+   CARDS
+============================================================================= */
+
+.card {
+  border-radius: 6px;          /* matches --form_border_radius */
+  border-color: #cdd5db;
+  box-shadow: 0 1px 5px rgba(0, 47, 98, 0.07);   /* subtle navy-tinted shadow */
+}
+
+.card-header {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  color: #002F62;              /* deep navy */
+  background-color: #e7ecf0;  /* light blue-grey —  --awb-color6 */
+  border-bottom: 1px solid #cdd5db;
+}
+
+/* Project-browser card header: compact single row with inline search input */
+.card-header.project-browser-header {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+.card-header.project-browser-header .btn {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.6rem;
+}
+
+/* Search input sits inside the header row at a fixed compact width */
+.project-browser-search {
+  flex: 0 0 auto;
+  width: 210px;
+  font-size: 0.8rem;
+  padding: 0.2rem 0.55rem;
+  height: auto;
+  line-height: 1.4;
+  border-color: #cdd5db;
+  border-radius: 4px;
+}
+
+.project-browser-search:focus {
+  border-color: #006AB4;
+  box-shadow: 0 0 0 0.15rem rgba(0, 106, 180, 0.2);
+  outline: none;
+}
+
+
+/* =============================================================================
+   VALUE BOXES (summary stat cards)
+============================================================================= */
+
+.bslib-value-box .value-box-value {
+  font-family: "Inter", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.bslib-value-box .value-box-title {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.88;
+}
+
+
+/* =============================================================================
+   SIDEBAR
+   Light blue-grey background matching --awb-color6
+============================================================================= */
+
+.bslib-sidebar-layout > .sidebar {
+  background-color: #f2f5f8;    /* slightly lighter than #e7ecf0 */
+  border-right: 1px solid #cdd5db;
+}
+
+/* Sidebar filter labels */
+.sidebar .form-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #363c42;              /* --awb-color4 */
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.01em;
+}
+
+/* Sidebar select inputs */
+.sidebar .form-select {
+  font-size: 0.85rem;
+  border-color: #002F62;       /* navy border — matches --form_border_color */
+  border-radius: 6px;
+}
+
+.sidebar .form-select:focus {
+  border-color: #006AB4;
+  box-shadow: 0 0 0 0.2rem rgba(22, 105, 180, 0.2);
+}
+
+/* Reset filters button */
+.sidebar .btn-outline-secondary {
+  font-size: 0.8rem;
+  color: #363c42;
+  border-color: #cdd5db;
+}
+
+.sidebar .btn-outline-secondary:hover {
+  background-color: #e7ecf0;
+  border-color: #002F62;
+  color: #002F62;
+}
+
+/* Filter status text */
+.sidebar small.text-muted {
+  font-size: 0.78rem;
+  color: #6c757d;
+}
+
+
+/* Compact sidebar variant
+ * Applied via class = "sidebar-compact" on bslib::sidebar() in ui.R. Used on
+ * the Data explorer sidebar so its 11 filter widgets fit on smaller screens
+ * without horizontal squish. Smaller font, tighter line height, less padding
+ * between widgets. Selectors are scoped to .sidebar-compact so other sidebars
+ * (none today, but possible later) are not affected.
+ */
+.sidebar-compact {
+  padding: 0.5rem 0.6rem;            /* override bslib's default 1rem padding */
+}
+
+.sidebar-compact .form-label {
+  font-size: 0.7rem;
+  margin-bottom: 0.1rem;
+  letter-spacing: 0.005em;
+}
+
+.sidebar-compact .form-select {
+  font-size: 0.78rem;
+  padding: 0.25rem 1.6rem 0.25rem 0.45rem;   /* tighter than Bootstrap's default */
+  min-height: unset;                          /* let line-height drive height */
+  line-height: 1.25;
+  border-radius: 4px;
+}
+
+.sidebar-compact .form-select:focus {
+  box-shadow: 0 0 0 0.15rem rgba(22, 105, 180, 0.2);   /* lighter focus ring */
+}
+
+/* Stack filter widgets closer together. .form-group is the wrapper Shiny puts
+   around each selectInput; bslib also exposes them as direct children of the
+   sidebar inner content. Pinning vertical rhythm here saves ~8px per widget,
+   which adds up to roughly 100px less total height across 13 filters. */
+.sidebar-compact .form-group,
+.sidebar-compact .shiny-input-container {
+  margin-bottom: 0.2rem;
+}
+
+/* Reset filters button stays compact too */
+.sidebar-compact .btn-outline-secondary {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+}
+
+/* Headings and meta text inside the compact sidebar */
+.sidebar-compact h6 {
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-compact small.text-muted {
+  font-size: 0.7rem;
+}
+
+/* The thin <hr/> dividers can lose vertical rhythm at this density: shrink
+   their margins so they sit snug against neighbouring widgets. */
+.sidebar-compact hr {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  opacity: 0.4;
+}
+
+/* Pin the compact sidebar to its natural content height, regardless of how
+ * tall the main column gets. layout_sidebar's grid normally uses align-items
+ * stretch, so a tall main column inflates the sidebar to match. The project
+ * browser's syncBrowserHeight() in ui.R then reads that inflated height and
+ * sets the card to the same value, which inflates the main column further,
+ * which restretches the sidebar: a runaway feedback loop. align-self: start
+ * keeps the sidebar at its content height so the loop never starts.
+ *
+ * Visual side effect: on the Visualisations sub-tab where the variable cards
+ * are taller than the sidebar, the sidebar's bg colour stops at the bottom of
+ * the filter list. The page bg behind it is white and the sidebar bg is a
+ * very pale blue-grey (#f2f5f8), so the seam is barely visible. If it ever
+ * looks wrong we can fix it by attaching the bg to the layout's left column
+ * via a separate ::before pseudo-element. */
+.bslib-sidebar-layout > .sidebar.sidebar-compact {
+  align-self: start;
+}
+
+
+/* =============================================================================
+   BUTTONS
+   Match twinpolitics.eu button styles: navy border, blue on hover
+============================================================================= */
+
+.btn-primary {
+  background-color: #006AB4;   /* --awb-color2 */
+  border-color: #002F62;       /* --awb-color3 */
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+}
+
+.btn-primary:hover {
+  background-color: #009EE3;   /* --awb-custom_color_1 cyan on hover */
+  border-color: #009EE3;
+}
+
+.btn-outline-primary {
+  color: #006AB4;
+  border-color: #006AB4;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+  background-color: #006AB4;
+  color: #ffffff;
+}
+
+
+/* =============================================================================
+   DATA TABLE (DT)
+============================================================================= */
+
+table.dataTable thead th {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #002F62;              /* deep navy column headers */
+  background-color: #e7ecf0;  /* light blue-grey header row */
+  border-bottom: 2px solid #006AB4;
+}
+
+/* Column header labels are rendered by mod_project_browser.R as a
+ * <span class="dt-col-header" title="Full name" style="...">…</span>
+ * inside each <th>. The truncation/ellipsis styles are INLINED on the span
+ * itself in the R module (see mod_project_browser.R) so they defeat DT's
+ * internal stylesheet on specificity. The rule below is only a fallback. */
+span.dt-col-header {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 14px;   /* room for DT's sort arrow */
+}
+
+table.dataTable tbody td {
+  font-size: 0.85rem;
+  color: #212326;
+  vertical-align: middle;
+}
+
+table.dataTable.stripe tbody tr.odd {
+  background-color: #f8fafb;  /* very subtle stripe */
+}
+
+table.dataTable tbody tr:hover {
+  background-color: #eef4fb !important;  /* light blue on row hover */
+}
+
+/* Column search filter inputs in DT */
+table.dataTable tfoot input,
+table.dataTable thead input {
+  font-size: 0.78rem;
+  border: 1px solid #002F62;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* Controls bar: font, spacing, and search input width */
+div.dataTables_wrapper div.dataTables_length label,
+div.dataTables_wrapper div.dataTables_filter label {
+  font-size: 0.85rem;
+  color: #363c42;
+  margin-bottom: 0;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+  width: 180px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-left: 0.4rem;  /* small gap between "Search:" label and the input */
+}
+
+/* Bottom info + pagination bar — match font size.
+ * DT's base stylesheet adds ~10px padding-top to both of these divs, which
+ * creates a visible gap between the horizontal scrollbar and the bottom band.
+ * We zero it out here so only the wrapper's own padding (pt-0 pb-1, set in
+ * the dom string in mod_project_browser.R) controls the spacing. */
+div.dataTables_wrapper div.dataTables_info,
+div.dataTables_wrapper div.dataTables_paginate {
+  font-size: 0.82rem;
+  color: #363c42;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* DT's pagination buttons also carry a default margin-top — trim so the
+ * button row doesn't push itself back down. */
+div.dataTables_wrapper div.dataTables_paginate .paginate_button {
+  margin-top: 0 !important;
+}
+
+/* --- Column text overflow behaviour ---
+ *
+ * dt-col-name  (Project name): always shows full text, wraps to multiple lines.
+ *              Row height expands to fit — this is the anchor for row height.
+ *
+ * dt-col-clip  (most columns): clipped to one line with a trailing ellipsis.
+ *              max-width: 0 is a CSS table trick required for text-overflow
+ *              to work inside table cells; actual width comes from columnDefs.
+ *
+ * dt-col-narrow (Homepage): same clipping as dt-col-clip but narrower.
+ */
+
+table.dataTable tbody td.dt-col-name {
+  white-space: normal;          /* allow wrapping */
+  word-break: break-word;
+  min-width: 180px;
+  line-height: 1.4;
+}
+
+table.dataTable tbody td.dt-col-clip,
+table.dataTable tbody td.dt-col-narrow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 0;                 /* required for text-overflow in table cells */
+}
+
+
+/* =============================================================================
+   LINKS
+============================================================================= */
+
+a {
+  color: #006AB4;              /* --link_color = --awb-color5 */
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #002F62;              /* --link_hover_color = --awb-color3 */
+}
+
+
+/* =============================================================================
+   DOCUMENTATION TAB — definition list
+============================================================================= */
+
+dl.row dt {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #002F62;
+}
+
+dl.row dd {
+  font-size: 0.88rem;
+  color: #212326;
+  margin-bottom: 0.75rem;
+}
+
+
+/* =============================================================================
+   OVERVIEW LANDING PAGE
+============================================================================= */
+
+/* Full-width hero */
+.overview-hero {
+  background: linear-gradient(135deg, #002F62 0%, #006AB4 100%);
+  color: #ffffff;
+  padding: 0;
+  margin: 0 -15px;   /* bleed to the container edge */
+}
+
+.overview-hero-inner {
+  padding: 4rem 2rem 1.75rem;
+  position: relative;
+}
+
+.overview-eyebrow {
+  font-family: "Inter", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #009EE3;
+  margin-bottom: 1.25rem;
+}
+
+.overview-hero-logo-abs {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 160px;
+  width: auto;
+  opacity: 0.9;
+  pointer-events: none;   /* don't interfere with clicks */
+}
+
+.overview-title {
+  font-family: "Open Sans", sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 300;
+  color: #ffffff !important;   /* override heading colour */
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.overview-subtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 1rem;
+}
+
+/* CTA buttons in lead strip (dark, on white background) */
+.overview-btn-dark {
+  background-color: #006AB4;
+  color: #ffffff !important;
+  border-color: #006AB4;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.overview-btn-dark:hover {
+  background-color: #002F62;
+  border-color: #002F62;
+  color: #ffffff !important;
+}
+
+/* CTA buttons in hero (light, on dark background) */
+.overview-btn-primary {
+  background-color: #ffffff;
+  color: #002F62 !important;
+  border-color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.overview-btn-primary:hover {
+  background-color: #e7ecf0;
+  border-color: #e7ecf0;
+}
+
+.overview-btn-secondary {
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,0.5) !important;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.overview-btn-secondary:hover {
+  background-color: rgba(255,255,255,0.12) !important;
+  border-color: #ffffff !important;
+}
+
+/* Lead strip: light band between hero and stat strip, holds logo + subtitle */
+.overview-lead-strip {
+  background-color: #ffffff;
+  padding: 1.5rem 2rem;
+  margin: 0 -15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overview-lead-inner {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.overview-lead-logo {
+  height: 72px;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Subtitle on light background (replaces the dark-hero variant) */
+.overview-subtitle-light {
+  font-family: "Inter", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #002F62;
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+
+/* Lead text on light background */
+.overview-lead {
+  font-size: 0.95rem;
+  color: #363c42;
+  line-height: 1.75;
+  max-width: 840px;
+}
+
+/* Stat strip: slim band between lead strip and map */
+.overview-stat-strip {
+  background-color: #f2f5f8;
+  border-top: 1px solid #cdd5db;
+  border-bottom: 1px solid #cdd5db;
+  padding: 0.9rem 1.5rem;
+  text-align: center;
+}
+
+.overview-stat-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.overview-stat-value {
+  font-family: "Inter", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #006AB4;
+  line-height: 1.1;
+}
+
+.overview-stat-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6c757d;
+  margin-top: 0.1rem;
+}
+
+.overview-stat-sep {
+  color: #cdd5db;
+  font-size: 1.4rem;
+  line-height: 1;
+  align-self: center;
+  padding: 0;
+}
+
+/* Placeholder image box inside cards */
+.overview-placeholder-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  background-color: #f2f5f8;
+  border: 2px dashed #cdd5db;
+  border-radius: 6px;
+  color: #adb5bd;
+}
+
+.overview-placeholder-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.overview-placeholder-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.overview-card {
+  border: 1px solid #cdd5db;
+}
+
+.overview-card .card-header {
+  font-size: 0.85rem;
+}
+
+.overview-card-icon {
+  color: #006AB4;
+  font-size: 0.9rem;
+}
+
+.overview-card-text {
+  font-size: 0.88rem;
+  color: #363c42;
+  line-height: 1.65;
+}
+
+/* Remove top margin from the page_navbar content area on the Overview tab
+   so the hero bleeds cleanly to the navbar */
+.tab-pane > .overview-page {
+  margin-top: -1rem;
+}
+
+
+/* =============================================================================
+   DATA EXPLORER — VIZ TOGGLE PILLS
+============================================================================= */
+
+/* Strip wrapper */
+.viz-toggle-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background-color: #f8fafb;
+  border: 1px solid #e7ecf0;
+  border-radius: 6px;
+}
+
+.viz-toggle-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6c757d;
+  white-space: nowrap;
+  margin-right: 0.25rem;
+}
+
+/* Each pill wrapper: remove default form-check padding/margin */
+.toggle-pill {
+  display: inline-block;
+  margin: 0;
+}
+
+.toggle-pill .form-check {
+  padding: 0;
+  margin: 0;
+  min-height: unset;
+}
+
+/* Hide the actual checkbox input */
+.toggle-pill .form-check-input {
+  display: none;
+}
+
+/* Style the label as a pill button */
+.toggle-pill .form-check-label {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.28rem 0.85rem;
+  border-radius: 20px;
+  border: 1.5px solid #006AB4;
+  font-size: 0.8rem;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  color: #006AB4;
+  background: transparent;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  user-select: none;
+  line-height: 1.6;
+}
+
+/* Checked = active / filled */
+.toggle-pill .form-check-input:checked + .form-check-label {
+  background-color: #006AB4;
+  color: #ffffff;
+}
+
+/* Hover states */
+.toggle-pill .form-check-label:hover {
+  background-color: #e8f1fb;
+}
+
+.toggle-pill .form-check-input:checked + .form-check-label:hover {
+  background-color: #125fa0;
+  border-color: #125fa0;
+  color: #ffffff;
+}
+
+
+/* =============================================================================
+   DATA EXPLORER — 2-COLUMN DONUT GRID
+   Each conditionalPanel is a flex item. When display:none (condition false),
+   flex removes the item from the flow, so visible donuts always fill both
+   columns without leaving gaps.
+============================================================================= */
+
+.donut-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Each conditionalPanel wrapper takes exactly 50% minus half the gap */
+.donut-grid > .shiny-panel-conditional {
+  flex: 0 0 calc(50% - 0.5rem);
+  min-width: 0;   /* prevents flex item overflow on narrow cards */
+}
+
+/* Stack to single column on small screens */
+@media (max-width: 768px) {
+  .donut-grid > .shiny-panel-conditional {
+    flex: 0 0 100%;
+  }
+}
+
+/* Vertical pipe separator between toggle groups in the strip */
+.viz-toggle-sep {
+  color: #cdd5db;
+  font-size: 1.1rem;
+  line-height: 1;
+  align-self: center;
+  padding: 0 0.25rem;
+  user-select: none;
+}
+
+
+/* =============================================================================
+   DATA EXPLORER — PLACEHOLDER CARDS
+   Shown in variable cards before a real visualisation is added.
+============================================================================= */
+
+.viz-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #adb5bd;
+}
+
+.viz-placeholder-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.6rem;
+  opacity: 0.45;
+}
+
+.viz-placeholder-text {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+  opacity: 0.6;
+}
+
+
+/* =============================================================================
+   OVERVIEW MAP SECTION
+============================================================================= */
+
+.overview-map-section {
+  padding-bottom: 2rem;
+}
+
+
+/* =============================================================================
+   RESPONSIVE
+============================================================================= */
+
+@media (max-width: 768px) {
+
+  .bslib-value-box .value-box-value {
+    font-size: 1.5rem;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+  }
+
+  /* Stack layout columns vertically on small screens */
+  .bslib-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================================================
+   TwinPolitics navbar brand logo
+   ----------------------------------------------------------------------------
+   Replaces the GCOMP wordmark in the header. Sized to the upper bound of
+   typical navbar heights so it reads without crowding the tab links.
+   Bump or shrink the height value to taste.
+   ============================================================================ */
+.gcomp-brand-logo {
+  height: 36px;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+/* =============================================================================
+   VARIABLE CARD TOGGLE BAR
+   -----------------------------------------------------------------------------
+   Sits under the summary cards in the Data explorer. One button per variable
+   card. Inactive (gray) by default, active (brand blue) when clicked, which
+   reveals the matching card in the .viz-grid below.
+   ============================================================================= */
+
+.viz-toggle-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f2f5f8;
+  border: 1px solid #cdd5db;
+  border-radius: 0.5rem;
+}
+
+.viz-toggle-bar-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6c757d;
+  margin-right: 0.25rem;
+}
+
+.viz-toggle {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #cdd5db;
+  background-color: #e7ecf0;
+  color: #363c42;
+  cursor: pointer;
+  transition: background-color 0.15s ease,
+              border-color 0.15s ease,
+              color 0.15s ease,
+              box-shadow 0.15s ease;
+}
+
+.viz-toggle:hover {
+  background-color: #dde4ea;
+  border-color: #b9c2cb;
+  color: #212326;
+}
+
+.viz-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 106, 180, 0.25);
+}
+
+.viz-toggle.active {
+  background-color: #006AB4;   /* brand blue */
+  border-color: #002F62;        /* deep navy */
+  color: #ffffff;
+}
+
+.viz-toggle.active:hover {
+  background-color: #007BC3;
+  border-color: #002F62;
+  color: #ffffff;
+}
+
+/* "Show all" / "Hide all" master toggle. Same shape as the per-variable
+   pills, but a slightly different colour so it reads as a control rather
+   than a variable, and a small divider line to its right separating it
+   from the per-variable buttons. */
+.viz-toggle-all {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #b9c2cb;
+  background-color: #ffffff;
+  color: #002F62;
+  cursor: pointer;
+  margin-right: 0.75rem;
+  position: relative;
+  transition: background-color 0.15s ease,
+              border-color 0.15s ease,
+              color 0.15s ease,
+              box-shadow 0.15s ease;
+}
+
+.viz-toggle-all::after {
+  content: "";
+  position: absolute;
+  right: -0.4rem;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 1px;
+  background-color: #cdd5db;
+}
+
+.viz-toggle-all:hover {
+  background-color: #f2f5f8;
+  border-color: #002F62;
+  color: #002F62;
+}
+
+.viz-toggle-all:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 106, 180, 0.25);
+}
+
+
+/* =============================================================================
+   VARIABLE CARDS GRID
+   -----------------------------------------------------------------------------
+   Two-column responsive grid that auto-flows when conditionalPanels hide
+   cards (display:none), so there are no empty gaps.
+   ============================================================================= */
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 992px) {
+  .viz-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =============================================================================
+   IN-CARD CHART-TYPE TOGGLE
+   -----------------------------------------------------------------------------
+   Small icon-only button group rendered in the card header (top right) of
+   each variable card. Uses the same gray-default / brand-blue-active vocab
+   as the variable toggle bar above the grid, but smaller and icon-only.
+   ============================================================================= */
+
+.chart-type-toggle {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-left: auto;            /* push to right edge of the flex header */
+}
+
+.chart-type-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  padding: 0;
+  font-size: 0.78rem;
+  border-radius: 0.35rem;
+  border: 1px solid #cdd5db;
+  background-color: #ffffff;    /* on top of the tinted card_header bg */
+  color: #6c757d;
+  cursor: pointer;
+  transition: background-color 0.15s ease,
+              border-color 0.15s ease,
+              color 0.15s ease,
+              box-shadow 0.15s ease;
+}
+
+.chart-type-btn:hover {
+  background-color: #e7ecf0;
+  border-color: #b9c2cb;
+  color: #212326;
+}
+
+.chart-type-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 106, 180, 0.25);
+}
+
+/* Card header is a flex row with title left, toggle right. The bslib default
+   header padding stays; we just need the toggle to not stretch vertically. */
+.card-header.d-flex .chart-type-toggle {
+  flex: 0 0 auto;
+}
+
+
+/* =============================================================================
+   GLOBAL FOOTER — ERC funding acknowledgement
+   ============================================================================= */
+.gcomp-footer {
+  background-color: #e7ecf0;
+  border-top: 1px solid #cdd5db;
+  padding: 0.2rem 1.5rem 0.3rem;
+  text-align: center;
+}
+
+.gcomp-footer-text {
+  font-size: 0.6rem;
+  color: #9aa4ae;
+  line-height: 1.3;
+}
+
+                                                     
