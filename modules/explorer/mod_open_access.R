@@ -29,7 +29,7 @@ open_access_server <- function(id, data) {
       count_categorical(data(), "open_access")
     })
 
-    chart_type <- chart_type_reactive(input, counts = counts)
+    chart_type <- chart_type_reactive(input)
 
     output$plot <- plotly::renderPlotly({
       render_categorical_viz(

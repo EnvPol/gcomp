@@ -1,15 +1,5 @@
-# ==============================================================================
-# modules/explorer/mod_data_types.R (Data types distribution)
-#
-# `data_types` is a `;`-separated multi-value column: a project can list
-# several data types. The counts here are over tokens, not rows: a project
-# with "Satellite; In-situ" contributes one to each token's bar.
-#
-# Note: because totals across tokens exceed the project count, the donut
-# view's percentages are "share of token mentions", not "share of projects".
-# In practice the auto-default rule (>5 categories -> vbar) usually picks
-# bars for this card anyway, which is the more honest view.
-# ==============================================================================
+# modules/explorer/mod_data_types.R — Data types distribution (multi-value)
+# Counts are over tokens, not rows; totals exceed the project count.
 
 data_types_ui <- function(id) {
   ns <- NS(id)
@@ -31,21 +21,15 @@ data_types_ui <- function(id) {
 data_types_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
 
-    # Tokenised counts (split on ";", trim, drop empties).
     counts <- reactive({
       count_multivalue(data(), "data_types", sep = ";")
     })
 
-    chart_type <- chart_type_reactive(input, counts = counts)
+    chart_type <- chart_type_reactive(input)
 
     output$plot <- plotly::renderPlotly({
       render_categorical_viz(
         d          = counts(),
         label_col  = "data_types",
         chart_type = chart_type(),
-        empty_msg  = "No data types information in the current selection"
-      )
-    })
-
-  })
-}
+        e

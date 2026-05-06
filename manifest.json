@@ -4019,239 +4019,23 @@
     "app.R": {
       "checksum": "f34905a4f4c9e73fb778a413e90acbe5"
     },
-    "backups_archive/260422_BACKUP_dto_dashboard/app.R": {
-      "checksum": "f34905a4f4c9e73fb778a413e90acbe5"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/global.R": {
-      "checksum": "fe6a0dc80a88b2e62530352e544b2459"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/institutions.xlsx": {
-      "checksum": "17e1d6d07d3d150a8beaf32c87e2478b"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/modules/mod_country_map.R": {
-      "checksum": "753289d262086643d5dc3f9a5c4d1b8e"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/modules/mod_data_browser.R": {
-      "checksum": "33ca16630c5798017210945cbd4bd7cd"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/modules/mod_documentation.R": {
-      "checksum": "8b2681b7aa30b95e3808affac1161161"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/modules/mod_institutional_network.R": {
-      "checksum": "34d541c7b7398b38adea233081b07b38"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/modules/mod_summary_cards.R": {
-      "checksum": "dcdd708b8b969e418ca8a6998dc38f77"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/modules/mod_test.R": {
-      "checksum": "ae688448921c4feccbf186197d990838"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/projects.xlsx": {
-      "checksum": "d8fe5d53f981b789eb05031b8055563a"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/random_testing.R": {
-      "checksum": "6e3dd67f2a4945024dbbca4b52b771a3"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/README.md": {
-      "checksum": "39a812b68cf5a943c9c138fe7b28d32a"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/server.R": {
-      "checksum": "c55b100723ff3ef413f2cbc9a442be87"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/ui.R": {
-      "checksum": "6cbec4a6b27e7e7d7e75d1ce1b0dc540"
-    },
-    "backups_archive/260422_BACKUP_dto_dashboard/www/custom.css": {
-      "checksum": "31f1c169fa9df957154590b434e8f15b"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/app.R": {
-      "checksum": "f34905a4f4c9e73fb778a413e90acbe5"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/global.R": {
-      "checksum": "68e2bec1628e5f2e1f9511bb7cbf259c"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/institutions.xlsx": {
-      "checksum": "17e1d6d07d3d150a8beaf32c87e2478b"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/_viz_helpers.R": {
-      "checksum": "53acfe1348618fcbefed7eb6d910f34d"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_data_types.R": {
-      "checksum": "50f3a8c8fce59e4f424f5ef99fe3ddfd"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_decision_support.R": {
-      "checksum": "82be09bad01c4ac78840d6c222f3a3e9"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_open_access.R": {
-      "checksum": "ea7b641427ff861a749efc1ed48431d9"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_operational.R": {
-      "checksum": "bdc2ec0892187f1da9cfba8582a4493f"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_public_private.R": {
-      "checksum": "aff20328d053293e907aae4067f06405"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_real_time.R": {
-      "checksum": "a554f2dc96517ad0166e55bd3bc9ec84"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_scope.R": {
-      "checksum": "134cc0635859d42bef4d885f1c316c77"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_tk.R": {
-      "checksum": "7408f7fa5339fe6e794716de86a378f2"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_user_interface.R": {
-      "checksum": "37c8731d32047a3a84ccc2c338c92c0a"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/explorer/mod_what_if.R": {
-      "checksum": "8eedbaadc10750f7aa7fecdd9f2dc33b"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/mod_country_map.R": {
-      "checksum": "293b86073ad16ba539694a84cf9e7d4a"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/mod_documentation.R": {
-      "checksum": "8b2681b7aa30b95e3808affac1161161"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/mod_institutional_network.R": {
-      "checksum": "75ffc08e9fc23fed789c6a5fa8882426"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/mod_overview.R": {
-      "checksum": "1a9aedf0a091ebe96e07e585d7ae1932"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/mod_project_browser.R": {
-      "checksum": "163c8f631229030b3c1bcabdb2fc2b3b"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/modules/mod_summary_cards.R": {
-      "checksum": "8284325f94443da1af0f87bda7e59161"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/projects.xlsx": {
-      "checksum": "d8fe5d53f981b789eb05031b8055563a"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/random_testing.R": {
-      "checksum": "6e3dd67f2a4945024dbbca4b52b771a3"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/README.md": {
-      "checksum": "978d9e2f144e2f1cf9decab33ca22154"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/server.R": {
-      "checksum": "f692cfb83f13878e5f15898d47333a97"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/ui.R": {
-      "checksum": "0965cde8d03a1efb8e7ce5f0ccf10128"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/www/custom.css": {
-      "checksum": "7d7766e32c8738198277937fd5429643"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/www/twinpolitics-logo-color.png": {
-      "checksum": "bfcf8cccd80805cdbbf51d8e24c947a8"
-    },
-    "backups_archive/260430_BACKUP_dto_dashboard/www/twinpolitics-logo-white.png": {
-      "checksum": "31ca75c5b60943a0bd2206ff28cfe0c8"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/app.R": {
-      "checksum": "f34905a4f4c9e73fb778a413e90acbe5"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/global.R": {
-      "checksum": "6ccb6d892cce946590f60686b8530b1e"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/institutions.xlsx": {
-      "checksum": "17e1d6d07d3d150a8beaf32c87e2478b"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/_viz_helpers.R": {
-      "checksum": "d7228617428b4325d62d6026ba650783"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_data_types.R": {
-      "checksum": "50f3a8c8fce59e4f424f5ef99fe3ddfd"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_decision_support.R": {
-      "checksum": "82be09bad01c4ac78840d6c222f3a3e9"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_open_access.R": {
-      "checksum": "ea7b641427ff861a749efc1ed48431d9"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_operational.R": {
-      "checksum": "bdc2ec0892187f1da9cfba8582a4493f"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_public_private.R": {
-      "checksum": "aff20328d053293e907aae4067f06405"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_real_time.R": {
-      "checksum": "a554f2dc96517ad0166e55bd3bc9ec84"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_scope.R": {
-      "checksum": "134cc0635859d42bef4d885f1c316c77"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_tk.R": {
-      "checksum": "7408f7fa5339fe6e794716de86a378f2"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_user_interface.R": {
-      "checksum": "37c8731d32047a3a84ccc2c338c92c0a"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/explorer/mod_what_if.R": {
-      "checksum": "8eedbaadc10750f7aa7fecdd9f2dc33b"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/mod_country_map.R": {
-      "checksum": "467382f4f4a5022855960f22fa8a8596"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/mod_documentation.R": {
-      "checksum": "8b2681b7aa30b95e3808affac1161161"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/mod_institutional_network.R": {
-      "checksum": "75ffc08e9fc23fed789c6a5fa8882426"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/mod_overview.R": {
-      "checksum": "a808850855388835298313fa5a4a327b"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/mod_project_browser.R": {
-      "checksum": "d20e1708f9078d9d7ff36736e6cef861"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/modules/mod_summary_cards.R": {
-      "checksum": "8284325f94443da1af0f87bda7e59161"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/projects.xlsx": {
-      "checksum": "d8fe5d53f981b789eb05031b8055563a"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/random_testing.R": {
-      "checksum": "6e3dd67f2a4945024dbbca4b52b771a3"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/README.md": {
-      "checksum": "5e8f98271301e43cac292b7caf2afb09"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/server.R": {
-      "checksum": "3c23fad440b22992ac9723362e2721dd"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/ui.R": {
-      "checksum": "3bdc0efe2e1d043b79615424e5d4c2d1"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/www/custom.css": {
-      "checksum": "c22d939832d1cdb5995ef157af54c530"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/www/twinpolitics-logo-color.png": {
-      "checksum": "bfcf8cccd80805cdbbf51d8e24c947a8"
-    },
-    "backups_archive/260501_BACKUP_dto_dashboard/www/twinpolitics-logo-white.png": {
-      "checksum": "31ca75c5b60943a0bd2206ff28cfe0c8"
-    },
-    "backups_archive/mod_feature_prevalence.R": {
-      "checksum": "cf9fef19bacbd0f10fe5cceeee4aea47"
-    },
-    "backups_archive/mod_top_institutions.R": {
-      "checksum": "53e0cf94fc277edc6be5e6e7e531e774"
-    },
-    "backups_archive/mod_var_donut.R": {
-      "checksum": "e3e81cc118f2fe2cbd5b7da9406450d5"
-    },
     "data/institutions.xlsx": {
       "checksum": "08fb3e638319412963461dbd67e6bac5"
+    },
+    "data/institutions_cache.rds": {
+      "checksum": "1d5b1eb89569fdac868e2e019c45886d"
     },
     "data/projects.xlsx": {
       "checksum": "2dbe24858c0bbc91e3298acafe10dc96"
     },
-    "global.R": {
-      "checksum": "f930ff822255f42bf0412f74763c83bd"
+    "data/projects_cache.rds": {
+      "checksum": "cae16141f043f7ceb93c2d476721f9c4"
     },
-    "institutions.xlsx": {
-      "checksum": "17e1d6d07d3d150a8beaf32c87e2478b"
+    "data/world_centroids_cache.rds": {
+      "checksum": "43a46788597e1d598df63a652b6cfccb"
+    },
+    "global.R": {
+      "checksum": "7fa6a7f3cfcf5b4ec67fbf7b455901fb"
     },
     "modules/explorer/_viz_helpers.R": {
       "checksum": "d7228617428b4325d62d6026ba650783"
@@ -4293,40 +4077,34 @@
       "checksum": "8eedbaadc10750f7aa7fecdd9f2dc33b"
     },
     "modules/mod_country_map.R": {
-      "checksum": "1b59e6eb3d4b34be3410689d048dde36"
+      "checksum": "969be1189cead2bda1aaff3ae3604905"
     },
     "modules/mod_documentation.R": {
-      "checksum": "8b2681b7aa30b95e3808affac1161161"
+      "checksum": "54afd9a66b17c7f31c83e45305d4c78d"
     },
     "modules/mod_institutional_network.R": {
-      "checksum": "e4bcc5188abcc7b5cfe705b8d52a456a"
+      "checksum": "e74e8e2fda7793147749f2b4c1fa49b3"
     },
     "modules/mod_overview.R": {
-      "checksum": "923b9464f25456e8bd22d0334e446b93"
+      "checksum": "e17bdf15fea0412ca2ace2a60ba1ac46"
     },
     "modules/mod_project_browser.R": {
-      "checksum": "0073ea320c6b4108056aa8b16161eb46"
+      "checksum": "788e257f57c7e585d0f3d6244b1f89eb"
     },
     "modules/mod_summary_cards.R": {
       "checksum": "6214b39fde35b3f498e81605f79bcc14"
-    },
-    "projects.xlsx": {
-      "checksum": "d8fe5d53f981b789eb05031b8055563a"
-    },
-    "random_testing.R": {
-      "checksum": "6e3dd67f2a4945024dbbca4b52b771a3"
     },
     "README.md": {
       "checksum": "5e8f98271301e43cac292b7caf2afb09"
     },
     "server.R": {
-      "checksum": "2f8794fbf13b88c057203895f159b53d"
+      "checksum": "60b52dea947eb89ebd509a7aefb66023"
     },
     "ui.R": {
-      "checksum": "776af46b008d933f9600913a066f9140"
+      "checksum": "78eb8665274e7df9aa556c300a6dea94"
     },
     "www/custom.css": {
-      "checksum": "e6c1d20b7b519c5a1316f57c92ef5642"
+      "checksum": "b91c20b06503db9d79e5fe963f1deef5"
     },
     "www/twinpolitics-logo-color.png": {
       "checksum": "bfcf8cccd80805cdbbf51d8e24c947a8"

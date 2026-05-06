@@ -1,36 +1,11 @@
 # ==============================================================================
-# modules/mod_country_map.R -- Bubble map of projects per country
+# modules/mod_country_map.R — Bubble map of projects per country
 #
-# Each bubble represents a country; its size is proportional to the number of
-# projects that have at least one participating institution from that country.
+# Bubble size scales with project count. Used on the Overview tab and can be
+# reused with filtered data elsewhere.
 #
-# Used in two places:
-#   - Overview tab  (id "overview_map"):  always visible, full catalogue, no filter
-#   - (future)      if added back to Data Explorer, would respond to filters
-#
-# Data flow:
-#   projects data frame
-#     -> split Countries_ISO2 on ";" (pre-computed per project in source data)
-#     -> deduplicate to (project_id, iso2) pairs
-#     -> count distinct projects per ISO2 code
-#     -> look up display name via countrycode
-#     -> join to country centroids from rnaturalearth on iso_a2
-#     -> render bubbles sized by sqrt(n_projects)
-#
-# Arguments to *_server():
-#   id               -- module ID matching the UI call
-#   data             -- reactive returning the projects data frame to map
-#   selected_country -- reactive returning the selected country name string,
-#                       or "all" / NA when nothing is selected (used for
-#                       highlighting). Pass reactive("all") when there is no
-#                       sidebar filter on the host tab.
-#
-# Returns:
-#   An eventReactive that fires whenever a bubble is clicked. The value is a
-#   list with $country (the country_name layerId of the clicked bubble) and
-#   $.nonce (a per-click random value so observers fire even when the user
-#   re-clicks the same bubble). Callers can ignore the return value if they
-#   do not need to react to clicks.
+# country_map_server() returns an eventReactive that fires on bubble clicks,
+# yielding $country (country name) and $.nonce (ensures re-clicks still fire).
 # ==============================================================================
 
 
@@ -57,16 +32,13 @@ country_map_ui <- function(id) {
 country_map_server <- function(id, data, selected_country = reactive("all")) {
   moduleServer(id, function(input, output, session) {
 
-    # ---- Project counts per country ------------------------------------------
-    # Countries_ISO2 is pre-computed per project in the source data: no join to
-    # institutions needed. We split on ";", trim whitespace, deduplicate to one
-    # row per (project, ISO2 code), then count projects per country.
     empty_counts <- tibble::tibble(
       country_iso2 = character(),
       country_name = character(),
       n_projects   = integer()
     )
 
+    # One row per (project, country) deduplicated, then counted by country.
     project_counts <- reactive({
       df <- data()
       if (is.null(df) || nrow(df) == 0) return(empty_counts)
@@ -79,7 +51,6 @@ country_map_server <- function(id, data, selected_country = reactive("all")) {
         tidyr::unnest(iso2) |>
         mutate(iso2 = str_trim(iso2)) |>
         filter(iso2 != "") |>
-        # One row per (project, country): deduplicate before counting.
         distinct(project_id, iso2) |>
         count(iso2, name = "n_projects") |>
         mutate(
@@ -91,13 +62,12 @@ country_map_server <- function(id, data, selected_country = reactive("all")) {
         rename(country_iso2 = iso2)
     })
 
-    # ---- Join counts to centroids --------------------------------------------
     map_points <- reactive({
       project_counts() |>
         inner_join(world_centroids, by = c("country_iso2" = "iso_a2"))
     })
 
-    # ---- Render base map once ------------------------------------------------
+    # Render base map once; bubbles are redrawn via proxy.
     output$map <- leaflet::renderLeaflet({
       leaflet::leaflet(options = leaflet::leafletOptions(
         minZoom = 1, worldCopyJump = TRUE
@@ -112,14 +82,12 @@ country_map_server <- function(id, data, selected_country = reactive("all")) {
         leaflet::setView(lng = 10, lat = 25, zoom = 2)
     })
 
-    # ---- Redraw bubbles whenever data or selected country changes ------------
     observe({
       pts <- map_points()
       sel <- selected_country()
       if (is.null(sel)) sel <- "all"
 
-      # sqrt scaling: keeps large-count countries from dwarfing small ones.
-      # Floor at 7px so every country is visible; cap at 45px.
+      # sqrt scaling with floor and cap keeps bubbles visible but not overwhelming.
       radius_fun <- function(n) pmin(pmax(sqrt(n) * 6, 7), 45)
 
       proxy <- leaflet::leafletProxy("map") |>
@@ -139,12 +107,9 @@ country_map_server <- function(id, data, selected_country = reactive("all")) {
           )
         )
 
-      # Label options: sticky = TRUE forces the tooltip to follow the cursor,
-      # working around a Leaflet bug on Chrome/Mac where trackpad touch detection
-      # disables hover labels.
+      # sticky labels work around a hover detection issue on some browsers
       lbl_opts <- leaflet::labelOptions(sticky = TRUE, direction = "auto")
 
-      # Unselected bubbles
       pts_unsel <- pts |> filter(!is_selected)
       if (nrow(pts_unsel) > 0) {
         proxy <- proxy |>
@@ -168,7 +133,7 @@ country_map_server <- function(id, data, selected_country = reactive("all")) {
           )
       }
 
-      # Selected bubble on top, highlighted in cyan
+      # Selected bubble rendered on top, highlighted.
       pts_sel <- pts |> filter(is_selected)
       if (nrow(pts_sel) > 0) {
         proxy |>
@@ -193,11 +158,7 @@ country_map_server <- function(id, data, selected_country = reactive("all")) {
       }
     })
 
-    # ---- Click events --------------------------------------------------------
-    # Emit a value every time the user clicks a bubble. The .nonce ensures the
-    # parent observer fires even when the same bubble is clicked twice in a
-    # row (the country string would otherwise be unchanged and observeEvent
-    # would skip the second event).
+    # Returns country name and a nonce on each click; nonce ensures re-clicks fire.
     eventReactive(input$map_marker_click, {
       list(
         country = input$map_marker_click$id,

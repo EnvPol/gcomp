@@ -29,7 +29,7 @@ what_if_server <- function(id, data) {
       count_categorical(data(), "what_if_modelling")
     })
 
-    chart_type <- chart_type_reactive(input, counts = counts)
+    chart_type <- chart_type_reactive(input)
 
     output$plot <- plotly::renderPlotly({
       render_categorical_viz(

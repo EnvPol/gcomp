@@ -1,50 +1,33 @@
 # ==============================================================================
 # modules/explorer/_viz_helpers.R
 #
-# Shared helpers for the Data explorer variable cards. Every card uses the
-# same pattern (toggle in header, donut/hbar/vbar render below), so the
-# repeating bits live here instead of being duplicated across ten files.
-#
-# What this file exports:
-#   CATEGORICAL_PALETTE      stable brand palette, ordered by visual weight
-#   chart_type_toggle_ui()   the three-button toggle for the card_header
-#   chart_type_reactive()    reactive() resolving to "donut" / "hbar" / "vbar"
+# Shared helpers for variable cards. Exports:
+#   CATEGORICAL_PALETTE      brand palette, ordered by visual weight
+#   chart_type_toggle_ui()   three-button toggle for card headers
+#   chart_type_reactive()    reactive resolving to "donut" / "hbar" / "vbar"
 #   count_categorical()      counts for a single-value categorical column
-#   count_multivalue()       counts for a `;`-separated multi-value column
-#   render_categorical_viz() plotly renderer that branches on chart_type
+#   count_multivalue()       counts for a semicolon-separated multi-value column
+#   render_categorical_viz() plotly renderer that branches on chart type
 #
-# The toggle is wired to a Shiny input via JS in ui.R (single global handler
-# scoped to the .chart-type-toggle group). Each module reads input$chart_type
-# automatically because the namespaced id is set on `data-input-id`.
+# The toggle is wired to Shiny via a JS handler in ui.R. Each module reads
+# input$chart_type via the namespaced id set on data-input-id.
 # ==============================================================================
 
 
-# ------------------------------------------------------------------------------
-# Brand palette (mirrors the values in global.R / style guide). The first
-# colour is assigned to the largest category so cards lead with brand blue.
-# ------------------------------------------------------------------------------
+# Brand palette — first colour goes to the largest category.
 CATEGORICAL_PALETTE <- c(
-  "#006AB4",   # TP_BLUE     (brand primary)
-  "#f1ae2a",   # TP_GOLD     (warm accent)
-  "#002F62",   # TP_NAVY     (dark anchor)
-  "#12b878",   # TP_GREEN    (cool accent)
-  "#009EE3",   # TP_CYAN     (brand)
-  "#db4b68",   # TP_CORAL    (warm contrast)
-  "#363c42"    # TP_CHARCOAL (off-brand catch-all)
+  "#006AB4",   # TP_BLUE
+  "#f1ae2a",   # TP_GOLD
+  "#002F62",   # TP_NAVY
+  "#12b878",   # TP_GREEN
+  "#009EE3",   # TP_CYAN
+  "#db4b68",   # TP_CORAL
+  "#363c42"    # TP_CHARCOAL
 )
 
 
-# ------------------------------------------------------------------------------
-# UI: three-button toggle to drop into a card_header().
-# `ns` is the module's NS function. The actual chart type is computed
-# server-side by chart_type_reactive(); the buttons just push the user's
-# click intent into Shiny via the JS handler in ui.R.
-#
-# Icons:
-#   chart-pie     donut
-#   chart-bar     horizontal bars (FA's chart-bar IS left-anchored)
-#   chart-column  vertical bars   (FA6 vertical column chart)
-# ------------------------------------------------------------------------------
+# Three-button toggle for chart_header(). Buttons push the selected type to
+# input$chart_type via the JS handler in ui.R.
 chart_type_toggle_ui <- function(ns, default = "donut") {
 
   active_class <- function(t) {
@@ -79,19 +62,8 @@ chart_type_toggle_ui <- function(ns, default = "donut") {
 }
 
 
-# ------------------------------------------------------------------------------
-# Server: returns reactive() resolving to the current chart type.
-#
-# Behaviour:
-#   - If the user has clicked a button, honour their choice (input$chart_type).
-#   - Otherwise default to "donut" for every card.
-#
-# The donut default keeps the chart-type toggle's visual state (donut active
-# by default in chart_type_toggle_ui) consistent with what is actually
-# rendered. The `counts` and `threshold` arguments are kept for backward
-# compatibility with existing callers but are no longer used.
-# ------------------------------------------------------------------------------
-chart_type_reactive <- function(input, counts = NULL, threshold = 5) {
+# Returns the active chart type; falls back to "donut" if none selected.
+chart_type_reactive <- function(input) {
   reactive({
     ct <- input$chart_type
     if (!is.null(ct) && nzchar(ct)) return(ct)
@@ -100,13 +72,8 @@ chart_type_reactive <- function(input, counts = NULL, threshold = 5) {
 }
 
 
-
-
-# ------------------------------------------------------------------------------
-# Counts helper: single-value categorical column.
-# Drops NA / empty strings, counts, sorts desc, sentence-cases the labels.
-# Returns a tibble with columns `<col>` and `n`.
-# ------------------------------------------------------------------------------
+# Counts for a single-value categorical column.
+# Drops NA / empty, counts, sorts descending, sentence-cases labels.
 count_categorical <- function(df, col, sentence_case = TRUE) {
 
   empty <- function() {
@@ -132,13 +99,9 @@ count_categorical <- function(df, col, sentence_case = TRUE) {
 }
 
 
-# ------------------------------------------------------------------------------
-# Counts helper: semicolon-separated multi-value column (e.g. data_types).
-# Tokenises, trims, drops empties, counts. Note that totals add up to MORE
-# than the project count because each project can contribute to several
-# tokens, so percentages on a donut are visually misleading: for these
-# columns we still allow the donut view, but bar charts are more honest.
-# ------------------------------------------------------------------------------
+# Counts for a semicolon-separated multi-value column.
+# Totals exceed the project count — each project contributes to multiple tokens.
+# Bar charts are more honest than donuts for these columns.
 count_multivalue <- function(df, col, sep = ";", sentence_case = TRUE) {
 
   empty <- function() {
@@ -169,18 +132,15 @@ count_multivalue <- function(df, col, sep = ";", sentence_case = TRUE) {
 }
 
 
-# ------------------------------------------------------------------------------
-# Plotly renderer. Returns the plot object (callers wrap in renderPlotly).
+# Plotly renderer for categorical data. Returns a plot object.
 #
 # Args:
-#   d           tibble with columns `<label_col>` and `<count_col>`, sorted
-#               desc by count (count_categorical / count_multivalue do this).
-#   label_col   name of the categorical column.
-#   count_col   name of the count column (default "n").
-#   chart_type  "donut" / "hbar" / "vbar".
-#   palette     vector of hex colours, in priority order.
-#   empty_msg   shown if `d` is empty.
-# ------------------------------------------------------------------------------
+#   d          tibble with columns <label_col> and <count_col>, sorted desc
+#   label_col  name of the label column
+#   count_col  name of the count column (default "n")
+#   chart_type "donut" / "hbar" / "vbar"
+#   palette    hex colour vector in priority order
+#   empty_msg  message shown when d is empty
 render_categorical_viz <- function(d, label_col,
                                    count_col  = "n",
                                    chart_type = "donut",
@@ -194,13 +154,11 @@ render_categorical_viz <- function(d, label_col,
              ))
   }
 
-  # Stable colour map: assign palette by descending count rank, so the same
-  # category gets the same colour in donut, hbar and vbar.
+  # Assign colours by descending count rank for consistency across chart types.
   d <- d |> dplyr::arrange(dplyr::desc(.data[[count_col]]))
   color_lookup <- setNames(palette[seq_len(nrow(d))], d[[label_col]])
 
-  # Recycle palette if there are more categories than colours (rare but
-  # cheap insurance against NA fill colours).
+  # Recycle palette if needed.
   if (anyNA(color_lookup)) {
     color_lookup[is.na(color_lookup)] <-
       palette[((which(is.na(color_lookup)) - 1) %% length(palette)) + 1]
@@ -213,7 +171,7 @@ render_categorical_viz <- function(d, label_col,
       values    = d[[count_col]],
       type      = "pie",
       hole      = 0.55,
-      sort      = FALSE,           # already sorted by count
+      sort      = FALSE,
       direction = "clockwise",
       marker    = list(
         colors = unname(color_lookup[d[[label_col]]]),
@@ -225,9 +183,7 @@ render_categorical_viz <- function(d, label_col,
     ) |>
       plotly::layout(
         showlegend = FALSE,
-        # Generous margins on all sides so outside "label+percent" lead
-        # lines aren't clipped: small slices that land at the top or
-        # bottom were getting their labels cut off at the card edge.
+        # Generous margins prevent outside labels from being clipped.
         margin = list(l = 60, r = 60, t = 60, b = 60),
         paper_bgcolor = "rgba(0,0,0,0)",
         plot_bgcolor  = "rgba(0,0,0,0)"
@@ -236,7 +192,7 @@ render_categorical_viz <- function(d, label_col,
 
   } else if (chart_type == "hbar") {
 
-    # Ascending order so the largest bar sits at the top of the chart.
+    # Ascending so the largest bar appears at the top.
     d_h <- d |> dplyr::arrange(.data[[count_col]])
 
     plotly::plot_ly(
@@ -253,8 +209,7 @@ render_categorical_viz <- function(d, label_col,
         xaxis  = list(title = "Projects",
                       gridcolor = "#e7ecf0",
                       zerolinecolor = "#cdd5db"),
-        # Lock category order to our ascending sort (otherwise plotly
-        # re-sorts alphabetically).
+        # Fix order; plotly otherwise sorts alphabetically.
         yaxis  = list(title = "",
                       categoryorder = "array",
                       categoryarray = d_h[[label_col]]),

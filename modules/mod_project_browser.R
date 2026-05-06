@@ -1,23 +1,11 @@
 # ==============================================================================
-# modules/mod_project_browser.R (Interactive data table with download)
+# modules/mod_project_browser.R — Searchable project table with downloads
 #
-# Displays all project columns as a searchable, sortable table. Lives as a
-# sub-tab under Data explorer and consumes the same filtered_projects reactive
-# as the visualisations, so the table reflects whatever sidebar filters are
-# active.
+# Shares the sidebar filters via filtered_projects. A freetext header search
+# filters across all columns on top of the sidebar filters. Downloads export
+# the current combined result.
 #
-# Search: a single compact freetext input in the card header that searches
-# across every column in the display table (case-insensitive substring match).
-# All DT built-in column filters have been removed.
-#
-# Downloads: export the currently filtered + searched set. Button labels say
-# "Download filtered..." whenever the sidebar filters OR the search have
-# narrowed the results.
-#
-# HOW TO MODIFY:
-#   - Change visible columns:  edit the select() call in display_data
-#   - Column widths:           edit the columnDefs list in the datatable call
-#   - Rows per page:           edit pageLength in datatable options
+# To change visible columns: edit the select() call in display_data.
 # ==============================================================================
 
 
@@ -75,37 +63,33 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
 
     ns <- session$ns
 
-    # ---- Build display data (all columns, country names converted) -----------
-    # country_display is pre-computed in global.R — no per-session countrycode
-    # call needed here.
+    # country_display is pre-computed in global.R.
     display_data <- reactive({
       data() |>
         select(
-          # Column order follows the source data, with Country kept second (after
-          # project name) as the sole exception to the data order rule.
-          "Project name"          = project_name,        # col 0
-          "Country"               = country_display,     # col 4 (exception)
-          "Institutions"          = institutions_clean,  # col 1
-          "Head institutions"     = head_institutions,   # col 3
-          "Public value framing"  = public_value_framing,# col 5
-          "Public value labels"   = public_values_labels,# col 6
-          "Technical objectives"  = technical_objectives,# col 7
-          "Public/private"        = public_private,      # col 8
-          "Funding sources"       = funding_sources,     # col 9
-          "Operational"           = operational_status,  # col 10
-          "Open access"           = open_access,         # col 11
-          "Scope"                 = scope,               # col 12
-          "Geographic coverage"   = geographic_coverage, # col 13
-          "Data types"            = data_types,          # col 14
-          "Data collection"       = data_collection_methods, # col 15
-          "TK from IPLCs"         = tk_from_iplcs,       # col 16
-          "User interface"        = user_interface,      # col 17
-          "Real-time data"        = real_time_data,      # col 18
-          "What-if modelling"     = what_if_modelling,   # col 19
-          "Decision support"      = decision_support_function, # col 20
-          "Homepage"              = homepages,           # col 21
-          "Other sources"         = other_relevant_sources,   # col 22
-          "Notes"                 = notes                # col 23
+          "Project name"          = project_name,
+          "Country"               = country_display,
+          "Institutions"          = institutions_clean,
+          "Head institutions"     = head_institutions,
+          "Public value framing"  = public_value_framing,
+          "Public value labels"   = public_values_labels,
+          "Technical objectives"  = technical_objectives,
+          "Public/private"        = public_private,
+          "Funding sources"       = funding_sources,
+          "Operational"           = operational_status,
+          "Open access"           = open_access,
+          "Scope"                 = scope,
+          "Geographic coverage"   = geographic_coverage,
+          "Data types"            = data_types,
+          "Data collection"       = data_collection_methods,
+          "TK from IPLCs"         = tk_from_iplcs,
+          "User interface"        = user_interface,
+          "Real-time data"        = real_time_data,
+          "What-if modelling"     = what_if_modelling,
+          "Decision support"      = decision_support_function,
+          "Homepage"              = homepages,
+          "Other sources"         = other_relevant_sources,
+          "Notes"                 = notes
         )
     })
 
@@ -124,7 +108,7 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
       df[keep, , drop = FALSE]
     })
 
-    # ---- TRUE when sidebar filters OR search have narrowed results -----------
+    # TRUE when sidebar filters or search have narrowed the result set.
     any_active <- reactive({
       isTRUE(filter_active()) || nrow(searched_data()) < nrow(projects)
     })
@@ -145,31 +129,6 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
         col_escaped, '</span>'
       )
 
-      # Column index reference (0-based, matches data source order):
-      #  0  Project name         — wide, wrapping     200px
-      #  1  Country              — clipped            110px
-      #  2  Institutions         — clipped            110px
-      #  3  Head institutions    — clipped            110px
-      #  4  Public value framing — wider clip         150px
-      #  5  Public value labels  — wider clip         150px
-      #  6  Technical objectives — wider clip         150px
-      #  7  Public/private       — clipped            110px
-      #  8  Funding sources      — clipped            110px
-      #  9  Operational          — clipped            110px
-      # 10  Open access          — clipped            110px
-      # 11  Scope                — clipped            110px
-      # 12  Geographic coverage  — clipped            110px
-      # 13  Data types           — clipped            110px
-      # 14  Data collection      — clipped            110px
-      # 15  TK from IPLCs        — clipped            110px
-      # 16  User interface       — clipped            110px
-      # 17  Real-time data       — clipped            110px
-      # 18  What-if modelling    — clipped            110px
-      # 19  Decision support     — clipped            110px
-      # 20  Homepage             — narrow             100px
-      # 21  Other sources        — clipped            110px
-      # 22  Notes                — clipped            110px
-
       DT::datatable(
         searched_data(),
         filter    = "none",
@@ -189,9 +148,7 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
             list(targets = c(4, 5, 6),className = "dt-col-clip",   width = "150px"),
             list(targets = c(1:3, 7:19, 21:22), className = "dt-col-clip", width = "110px")
           ),
-          # No global search box (f removed); show entries (l) left, table (t),
-          # info (i) and pagination (p) at the bottom.
-          dom = "<'d-flex align-items-center justify-content-between pt-1 pb-0 px-3'<''l>>t<'d-flex align-items-center justify-content-between pt-0 pb-1 px-3'ip>",
+          dom ="<'d-flex align-items-center justify-content-between pt-1 pb-0 px-3'<''l>>t<'d-flex align-items-center justify-content-between pt-0 pb-1 px-3'ip>",
           language = list(search = ""),
           # Set each cell's title attribute to its text so the browser native
           # tooltip shows the full content on hover (useful for clipped cells).
@@ -208,9 +165,6 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
       )
     })
 
-    # ---- Reactive header count -----------------------------------------------
-    # Always shows the combined result of sidebar filters + text search,
-    # so it stays identical to the sidebar counter at all times.
     output$header_count <- renderText({
       n_total <- nrow(projects)
       n_shown <- nrow(searched_data())
@@ -222,7 +176,7 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
       }
     })
 
-    # ---- Dynamic download buttons (label reflects filter + search state) ----
+    # Download button labels change when filters or search are active.
     output$download_csv_btn <- renderUI({
       label <- if (isTRUE(any_active())) "Download filtered CSV" else "Download CSV"
       downloadButton(

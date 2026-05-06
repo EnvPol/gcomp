@@ -1,11 +1,4 @@
-# ==============================================================================
-# modules/explorer/mod_scope.R (Scope distribution)
-#
-# Donut / horizontal bar / vertical bar of `scope` across the filtered
-# projects. NA / empty values are dropped. The chart-type toggle and
-# rendering logic come from _viz_helpers.R; this file only specifies the
-# column to plot.
-# ==============================================================================
+# modules/explorer/mod_scope.R — Scope distribution
 
 scope_ui <- function(id) {
   ns <- NS(id)
@@ -31,16 +24,11 @@ scope_server <- function(id, data) {
       count_categorical(data(), "scope")
     })
 
-    chart_type <- chart_type_reactive(input, counts = counts)
+    chart_type <- chart_type_reactive(input)
 
     output$plot <- plotly::renderPlotly({
       render_categorical_viz(
         d          = counts(),
         label_col  = "scope",
         chart_type = chart_type(),
-        empty_msg  = "No scope data in the current selection"
-      )
-    })
-
-  })
-}
+        empty_msg  = "No scope 

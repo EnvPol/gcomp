@@ -1,18 +1,11 @@
 # ==============================================================================
-# global.R — Libraries, data loading, theme, and shared utilities
+# global.R — Packages, modules, theme, data loading, and shared globals
+# Runs once at startup; all objects are shared across sessions.
 #
-# This file runs ONCE when the app starts. It is the right place for:
-#   - library() calls
-#   - Data loading and cleaning
-#   - Theme / colour settings
-#   - Shared helper functions
-#   - source() calls for module files
-#
-# KEY LOCATIONS FOR COMMON CHANGES:
-#   Colours / fonts     -> "THEME SETTINGS" section below
-#   Data file paths     -> "DATA LOADING" section below
-#   Add new module      -> add source() call in "LOAD MODULES" section
-#   Add new filter      -> add entry in "FILTER OPTIONS" section
+#   Colours / fonts  ->  THEME SETTINGS
+#   Data file paths  ->  DATA LOADING
+#   New module       ->  LOAD MODULES (add source() call)
+#   New filter       ->  FILTER OPTIONS
 # ==============================================================================
 
 
@@ -98,9 +91,8 @@ THEME_BORDER     <- "#cdd5db"
 THEME_FONT_BODY    <- "Open Sans"
 THEME_FONT_HEADING <- "Inter"
 
-# font_google() makes an HTTP request to Google on every app load to discover
-# the font URL. Since custom.css already loads both fonts via @import, we pass
-# plain strings instead — bslib sets the CSS variables without any network call.
+# Plain strings avoid font_google()'s network request; custom.css loads the
+# fonts via @import, so bslib just needs the family name as a CSS variable.
 app_theme <- bs_theme(
   version      = 5,
   primary      = THEME_PRIMARY,
@@ -132,9 +124,8 @@ app_theme <- bs_theme(
 
 # ==============================================================================
 # DATA LOADING
-# RDS caching: on first run, reads Excel and saves a .rds sidecar file.
-# On subsequent runs, loads the .rds directly (10-50x faster than read_excel).
-# The cache is invalidated automatically whenever the source .xlsx is newer.
+# Reads Excel on first run and caches as .rds. Cache is invalidated when the
+# source file is newer than the cache.
 # ==============================================================================
 
 .load_cached <- function(xlsx_path, rds_path) {
@@ -194,9 +185,7 @@ institutions <- institutions |>
 
 # ==============================================================================
 # PRE-COMPUTED COUNTRY DISPLAY NAMES
-# Converts each project's semicolon-separated ISO2 codes to readable country
-# names once at startup. mod_project_browser.R uses this column directly
-# instead of running countrycode() on every session and filter change.
+# Converts semicolon-separated ISO2 codes to readable names once at startup.
 # ==============================================================================
 
 .iso2_to_display <- function(x) {
@@ -213,9 +202,8 @@ projects <- projects |>
 
 
 # ==============================================================================
-# WORLD CENTROIDS (for country map)
-# Computed once and cached as .rds. After the first run, sf / rnaturalearth
-# are not needed for the map — only the cached tibble is loaded.
+# WORLD CENTROIDS
+# Country centroids computed once and cached as .rds for the bubble map.
 # ==============================================================================
 
 .centroids_rds <- "data/world_centroids_cache.rds"
@@ -241,8 +229,7 @@ if (file.exists(.centroids_rds)) {
 
 # ==============================================================================
 # INSTITUTIONAL NETWORK — pre-computed nodes and edges
-# This computation ran per-session inside mod_institutional_network.R.
-# Moving it here means it runs once at startup and all sessions reuse the result.
+# Computed once at startup; all sessions read inst_nodes / inst_edges directly.
 # ==============================================================================
 
 # 1. Lookup: inst_id -> head_unit
@@ -262,10 +249,10 @@ if (file.exists(.centroids_rds)) {
   rename(label = head_unit) |>
   select(id, label, country)
 
-# 3. Per-head-unit tooltip links (one named <a> per sub-institution)
+# 3. Tooltip links: one link per sub-institution with a homepage
 .inst_links <- institutions |>
   filter(!is.na(head_unit), !is.na(homepage), nzchar(homepage)) |>
-  distinct(head_unit, cleaned_institution_name, homepage) |>
+  distinct(head_unit, cleaned_institution_name, .keep_all = TRUE) |>
   group_by(head_unit) |>
   summarise(
     links_html = paste(
@@ -363,7 +350,6 @@ inst_nodes <- .nodes_raw |>
 
 inst_edges <- .inst_edges
 
-# Clean up temporary objects
 rm(.inst_to_head, .nodes_raw, .inst_links, .inst_edges, .degree_tbl)
 
 

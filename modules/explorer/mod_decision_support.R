@@ -29,7 +29,7 @@ decision_support_server <- function(id, data) {
       count_categorical(data(), "decision_support_function")
     })
 
-    chart_type <- chart_type_reactive(input, counts = counts)
+    chart_type <- chart_type_reactive(input)
 
     output$plot <- plotly::renderPlotly({
       render_categorical_viz(

@@ -29,7 +29,7 @@ operational_server <- function(id, data) {
       count_categorical(data(), "operational_status")
     })
 
-    chart_type <- chart_type_reactive(input, counts = counts)
+    chart_type <- chart_type_reactive(input)
 
     output$plot <- plotly::renderPlotly({
       render_categorical_viz(

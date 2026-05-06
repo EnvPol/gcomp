@@ -1,18 +1,8 @@
 # ==============================================================================
-# modules/mod_documentation.R — Documentation tab
+# modules/mod_documentation.R — Documentation tab (static content)
 #
-# This module displays static documentation content about the DTO Tracker.
-# It has no reactive logic — it just renders fixed HTML/text.
-#
-# HOW TO UPDATE THE CONTENT:
-#   Option A (simple): edit the HTML directly in the tagList() below
-#   Option B (recommended for longer docs): replace the tagList() content with
-#     includeMarkdown("docs/documentation.md")
-#     and write your documentation in a plain Markdown file.
-#     This keeps documentation separate from code.
-#
-# The server function is intentionally empty — it must exist to follow the
-# module pattern but documentation needs no server-side logic.
+# To update content: edit the HTML below, or replace with
+# includeMarkdown("docs/documentation.md") for file-based docs.
 # ==============================================================================
 
 
@@ -20,7 +10,6 @@
 documentation_ui <- function(id) {
   ns <- NS(id)
 
-  # Centred, readable column layout (max width ~720px for comfortable reading)
   div(
     class = "row justify-content-center",
 
@@ -130,12 +119,9 @@ documentation_ui <- function(id) {
 
 
 # --- SERVER -------------------------------------------------------------------
-# The documentation tab is static — no reactive logic needed.
-# This function must exist to follow the Shiny module pattern.
 documentation_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
-    # Total project count shown in the About text
     output$n_total <- renderText({
       nrow(projects)
     })

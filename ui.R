@@ -1,39 +1,25 @@
 # ==============================================================================
-# ui.R (User interface layout)
+# ui.R — Top-level layout
 #
-# STRUCTURE:
-#   page_navbar()
-#   ├── nav_panel("Overview")              Tab 1: landing page + map, no sidebar
-#   │   └── overview_ui()
-#   ├── nav_panel("Data explorer")         Tab 2: shared filter sidebar
-#   │   └── layout_sidebar()
-#   │       ├── sidebar()                  filter widgets (shared across sub-tabs)
-#   │       └── navset_underline()         sub-tabs (sit in the main content area)
-#   │           ├── nav_panel("Visualisations")
-#   │           │   ├── summary_cards_ui()
-#   │           │   └── variable cards     2-column responsive grid
-#   │           └── nav_panel("Project browser")
-#   │               └── project_browser_ui()
-#   ├── nav_panel("Institutional network") Tab 3
-#   └── nav_panel("Documentation")         Tab 4
+# Structure:
+#   page_navbar
+#   ├── Overview            landing page + map, no sidebar
+#   ├── Data explorer       shared sidebar across two sub-tabs:
+#   │   ├── Visualisations  summary cards + variable card grid
+#   │   └── Project browser searchable table + downloads
+#   ├── Institutional network
+#   └── Documentation
 #
-# Why one parent tab with sub-tabs: the filter widgets and the project browser
-# table use the same filter inputs (input$filter_country etc., not namespaced).
-# Rendering them inside one shared layout_sidebar keeps the sidebar visible
-# when switching between sub-tabs and avoids duplicate input ID errors.
+# The sidebar and both sub-tabs share one layout_sidebar so filter inputs
+# are rendered once and apply to both sub-tabs without duplicate ID errors.
 #
-# HOW TO ADD A NEW VARIABLE CARD:
-#   1. Create modules/explorer/mod_<name>.R with <name>_ui() and <name>_server()
-#   2. Source the file in global.R
-#   3. Add <name>_ui("<name>") inside the Visualisations sub-tab below
-#   4. Add <name>_server("<name>", data = filtered_projects) in server.R
+# To add a variable card: create the module, source it in global.R, add a
+# toggle button and conditionalPanel below, and register its server call.
 # ==============================================================================
 
 ui <- page_navbar(
 
-  # id lets server-side code switch tabs via nav_select(). Used by the country
-  # map bubble click handler in server.R: clicking a bubble jumps the user to
-  # the Data explorer tab with the country filter pre-applied.
+  # id enables server-side tab switching via nav_select()
   id           = "main_navbar",
 
   title        = tags$span(
@@ -46,7 +32,7 @@ ui <- page_navbar(
       class = "gcomp-brand-logo"
     )
   ),
-  window_title = "TwinPolitics GCOMP",   # browser tab text (title is HTML, so set explicitly)
+  window_title = "TwinPolitics GCOMP",
   theme        = app_theme,
   fillable     = FALSE,
   lang         = "en",
@@ -88,9 +74,6 @@ ui <- page_navbar(
         sidebar = sidebar(
           width = 210,
           open  = "open",
-          # The .sidebar-compact hook lets custom.css tighten typography and
-          # spacing for this specific sidebar without affecting bslib defaults
-          # elsewhere in the app.
           class = "sidebar-compact",
 
           tags$h6(
@@ -111,13 +94,11 @@ ui <- page_navbar(
 
           tags$hr(class = "my-1"),
 
-          # Country filter always sits first (cross-cutting, common entry point).
           selectizeInput("filter_country",                   "Country",
                          choices = filter_opts$country, multiple = TRUE,
                          selected = NULL,
                          options = list(placeholder = "All")),
 
-          # Institution filters sit above the divider, after Country (data cols 1, 3).
           selectizeInput("filter_institutions",              "Institution",
                          choices = filter_opts$institutions, multiple = TRUE,
                          selected = NULL,
@@ -129,7 +110,6 @@ ui <- page_navbar(
 
           tags$hr(class = "my-1"),
 
-          # Remaining filters follow the column order in the data.
           selectizeInput("filter_public_values_labels",      "Public value labels",
                          choices = filter_opts$public_values_labels, multiple = TRUE,
                          selected = NULL,
@@ -180,19 +160,11 @@ ui <- page_navbar(
                          options = list(placeholder = "All"))
         ),
 
-        # ------------------------------------------------------------------
-        # SUB-TABS (Visualisations | Project browser)
-        # navset_underline gives a slim underline-style tab strip without
-        # adding an extra card wrapper. Both sub-tabs sit inside the same
-        # layout_sidebar, so the filter widgets above apply to whichever
-        # sub-tab is on screen.
-        # ------------------------------------------------------------------
+        # Sub-tabs share the sidebar above; filters apply to whichever is active.
         navset_underline(
           id = "explorer_subtabs",
 
-          # ----------------------------------------------------------------
-          # SUB-TAB A: Visualisations (summary cards + variable card grid)
-          # ----------------------------------------------------------------
+          # Sub-tab A: Visualisations
           nav_panel(
             title = "Visualisations",
             icon  = icon("chart-bar"),
@@ -203,18 +175,10 @@ ui <- page_navbar(
 
             tags$div(class = "mt-3"),
 
-            # ----------------------------------------------------------
-            # VARIABLE CARD TOGGLE BAR
-            # One button per variable card. Clicking a button toggles
-            # its .active class (gray -> blue) and the corresponding
-            # card appears below. All buttons start inactive: the user
-            # picks what they want to see. The active set is pushed to
-            # input$viz_visible by the JS handler at the bottom of this
-            # nav_panel. Each card listens to that input via its own
-            # conditionalPanel.
-            # TO ADD A NEW CARD: add a button here AND a conditionalPanel
-            # below AND register its *_server() call in server.R.
-            # ----------------------------------------------------------
+            # Toggle bar: buttons show/hide individual cards. Active set is
+            # pushed to input$viz_visible; each card's conditionalPanel reads it.
+            # To add a card: add a button here, a conditionalPanel below,
+            # and a *_server() call in server.R.
             div(class = "viz-toggle-bar",
               tags$span(class = "viz-toggle-bar-label", "Show:"),
               tags$button(type = "button", class = "viz-toggle-all", "Show all"),
@@ -234,13 +198,7 @@ ui <- page_navbar(
 
             tags$div(class = "mt-3"),
 
-            # ----------------------------------------------------------
-            # VARIABLE CARDS — 2-column responsive grid
-            # Each card wrapped in conditionalPanel keyed off
-            # input$viz_visible. Hidden cards are display:none, so the
-            # CSS grid auto-flow reflows the remaining cards: no empty
-            # gaps. Order here is the same as the toggle bar above.
-            # ----------------------------------------------------------
+            # Variable cards — 2-column grid, each gated by conditionalPanel.
             div(class = "viz-grid",
               conditionalPanel(
                 condition = "input.viz_visible && input.viz_visible.indexOf('public_values') > -1",
@@ -293,9 +251,7 @@ ui <- page_navbar(
             )
           ), # end Visualisations sub-tab
 
-          # ----------------------------------------------------------------
-          # SUB-TAB B: Project browser (filterable table + downloads)
-          # ----------------------------------------------------------------
+          # Sub-tab B: Project browser
           nav_panel(
             title = "Project browser",
             icon  = icon("table"),
@@ -307,15 +263,8 @@ ui <- page_navbar(
 
         ), # end navset_underline
 
-        # JS hooks for the explorer.
-        # 1. Variable toggle bar: toggle .active class, push active variable
-        #    set to input$viz_visible. Initialised to an empty array on
-        #    connect so the conditionalPanels evaluate cleanly on first
-        #    render.
-        # 2. Per-card chart-type toggle (donut / hbar / vbar): single-select
-        #    inside each .chart-type-toggle group. Pushes the chosen value
-        #    to a namespaced Shiny input read off the group's `data-input-id`
-        #    attribute, so each card's module reads its own input$chart_type.
+        # JS: variable toggle bar (input$viz_visible) and per-card chart-type
+        # toggle (input$chart_type, namespaced via data-input-id attribute).
         tags$script(HTML(
           "function syncShowAllLabel() {
              var $all      = $('.viz-toggle');
@@ -346,9 +295,7 @@ ui <- page_navbar(
              syncShowAllLabel();
            });
            $(document).on('shiny:connected', function() {
-             // Default: every variable card visible. Activates each toggle
-             // button (so it shows the active style) and pushes the full
-             // ID list to viz_visible so the conditionalPanels render.
+             // Start with all cards visible.
              $('.viz-toggle').addClass('active');
              pushVizVisible();
              syncShowAllLabel();
@@ -365,19 +312,8 @@ ui <- page_navbar(
              }
            });
 
-           // ============================================================
-           // PROJECT BROWSER HEIGHT SYNC
-           // The card holding the data table is matched in height to the
-           // filter sidebar. Sidebar height is content-driven so we read
-           // it from the DOM and apply matching pixel heights to:
-           //   .project-browser-card        (the outer card)
-           //   .dataTables_scrollBody       (DT's vertical scroll area)
-           // CHROME is the sum of: card header, DT top bar, filter row,
-           // column headers, DT bottom bar. Tweak if visual chrome shifts.
-           // The minimum guard keeps a usable scroll area for sidebars
-           // shorter than CHROME (rare on a desktop, possible on small
-           // screens where the sidebar is collapsed).
-           // ============================================================
+           // Sync project browser card height to the sidebar.
+           // BROWSER_CARD_CHROME_PX is the non-scrollable UI chrome within the card.
            var BROWSER_CARD_CHROME_PX = 240;
 
            function syncBrowserHeight() {
@@ -395,21 +331,18 @@ ui <- page_navbar(
                'height':     bodyH + 'px'
              });
 
-             // Nudge DT to reflow column widths to the new container size.
+             // Reflow DT column widths to the new size.
              var $tbl = $card.find('table.dataTable');
              if ($tbl.length && $.fn.dataTable && $.fn.dataTable.isDataTable($tbl)) {
                $tbl.DataTable().columns.adjust();
              }
            }
 
-           // Run after the table has had a moment to render. shiny:value
-           // fires for every output update, so we filter to the table's
-           // own redraws to avoid pointless recomputes elsewhere.
            $(document).on('shiny:connected', function() {
              setTimeout(syncBrowserHeight, 150);
            });
            $(window).on('resize', function() {
-             // Coalesce repeated resize events into a single trailing call.
+             // Debounce resize events.
              clearTimeout(window.__browserHeightTimer);
              window.__browserHeightTimer = setTimeout(syncBrowserHeight, 100);
            });
@@ -428,9 +361,7 @@ ui <- page_navbar(
   ), # end Data explorer
 
 
-  # ============================================================================
-  # TAB 3: INSTITUTIONAL NETWORK
-  # ============================================================================
+  # ---- Tab 3: Institutional network ------------------------------------------
   nav_panel(
     title = "Institutional network",
     icon  = icon("sitemap"),
@@ -439,9 +370,7 @@ ui <- page_navbar(
   ),
 
 
-  # ============================================================================
-  # TAB 4: DOCUMENTATION
-  # ============================================================================
+  # ---- Tab 4: Documentation --------------------------------------------------
   nav_panel(
     title = "Documentation",
     icon  = icon("book-open"),
@@ -452,9 +381,7 @@ ui <- page_navbar(
   ),
 
 
-  # ============================================================================
-  # NAVBAR EXTRAS (right side)
-  # ============================================================================
+  # ---- Navbar extras ---------------------------------------------------------
   nav_spacer(),
 
   nav_item(

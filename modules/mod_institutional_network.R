@@ -1,18 +1,10 @@
-# modules/mod_institutional_network.R — Institutional network visualisation
+# ==============================================================================
+# modules/mod_institutional_network.R — Institutional collaboration network
 #
-# Uses the globally loaded `institutions` and `projects` data frames from
-# global.R. Node IDs are the numeric inst_id values from institutions.xlsx,
-# so no slug/transliteration step is needed.
-#
-# Data flow:
-#   institutions  -> one node per unique head_unit (grouped by head_unit name)
-#   projects      -> split institution_ids on ";" -> integer inst_id list
-#                 -> join to institutions on inst_id to get head_unit
-#                 -> generate all pairwise (head_unit, head_unit) co-occurrences
-#                 -> count co-occurrences -> edge weights
-
-library(tidyverse)
-
+# Renders a visNetwork graph where nodes are head institutions and edges
+# represent co-occurrence on the same project. Node size reflects degree.
+# Nodes and edges are pre-computed in global.R as inst_nodes / inst_edges.
+# ==============================================================================
 
 # --- UI -----------------------------------------------------------------------
 institutional_network_ui <- function(id) {
@@ -39,11 +31,7 @@ institutional_network_ui <- function(id) {
 
 
 # --- SERVER -------------------------------------------------------------------
-institutional_network_server <- function(id,
-                                         institutions_path = NULL,
-                                         projects_path     = NULL) {
-  # institutions_path and projects_path are accepted but ignored: we use the
-  # globally loaded `institutions` and `projects` data frames instead.
+institutional_network_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     # ── Nodes and edges are pre-computed in global.R as inst_nodes / inst_edges.
