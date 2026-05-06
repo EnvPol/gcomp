@@ -32,4 +32,9 @@ data_types_server <- function(id, data) {
         d          = counts(),
         label_col  = "data_types",
         chart_type = chart_type(),
-        e
+        empty_msg  = "No data types data in the current selection"
+      )
+    })
+    
+  })
+}

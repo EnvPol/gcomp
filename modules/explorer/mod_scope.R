@@ -31,4 +31,9 @@ scope_server <- function(id, data) {
         d          = counts(),
         label_col  = "scope",
         chart_type = chart_type(),
-        empty_msg  = "No scope 
+        empty_msg  = "No scope data in the current selection"
+      )
+    })
+    
+  })
+}
