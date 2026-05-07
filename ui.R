@@ -39,7 +39,7 @@ ui <- page_navbar(
 
   header = tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
-    tags$link(rel = "icon", type = "image/png", href = "twinpolitics-logo-color.png")
+    tags$link(rel = "icon", type = "image/png", href = "favicon.png")
   ),
 
 
