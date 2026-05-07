@@ -397,12 +397,24 @@ ui <- page_navbar(
   ),
 
   footer = tags$footer(
-    style = "background-color:#e7ecf0; border-top:1px solid #cdd5db; padding:0.2rem 1.5rem 0.3rem; text-align:center;",
-    tags$span(
-      style = "font-size:0.68rem; color:#9aa4ae; line-height:1.3;",
-      "This project has received funding from the European Research Council (ERC) ",
-      "under the European Union's Horizon Europe research and innovation programme ",
-      "(grant agreement No 101124903 – TwinPolitics – ERC-2023-CoG)."
+    style = "background-color:#e7ecf0; border-top:1px solid #cdd5db; padding:0.5rem 1.5rem;",
+    tags$div(
+      style = "display:flex; align-items:center; justify-content:space-between; gap:1rem;",
+      tags$div(
+        style = "display:flex; align-items:center; gap:1rem;",
+        tags$img(src = "univie_logo.jpg",
+                 alt = "Universität Wien",
+                 style = "height:56px; mix-blend-mode:multiply;"),
+        tags$img(src = "erc_eu_logo.jpg",
+                 alt = "European Research Council",
+                 style = "height:56px; mix-blend-mode:multiply;")
+      ),
+      tags$span(
+        style = "font-size:0.68rem; color:#9aa4ae; line-height:1.3; text-align:right;",
+        "This project has received funding from the European Research Council (ERC) ",
+        "under the European Union's Horizon Europe research and innovation programme ",
+        "(grant agreement No 101124903 – TwinPolitics – ERC-2023-CoG)."
+      )
     )
   )
 
