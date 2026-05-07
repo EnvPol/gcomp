@@ -68,9 +68,9 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
       data() |>
         select(
           "Project name"          = project_name,
-          "Country"               = country_display,
           "Institutions"          = institutions_clean,
           "Head institutions"     = head_institutions,
+          "Country"               = country_display,
           "Public value framing"  = public_value_framing,
           "Public value labels"   = public_values_labels,
           "Technical objectives"  = technical_objectives,

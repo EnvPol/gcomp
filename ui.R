@@ -94,17 +94,17 @@ ui <- page_navbar(
 
           tags$hr(class = "my-1"),
 
-          selectizeInput("filter_country",                   "Country",
-                         choices = filter_opts$country, multiple = TRUE,
-                         selected = NULL,
-                         options = list(placeholder = "All")),
-
           selectizeInput("filter_institutions",              "Institution",
                          choices = filter_opts$institutions, multiple = TRUE,
                          selected = NULL,
                          options = list(placeholder = "All")),
           selectizeInput("filter_head_institutions",         "Head institution",
                          choices = filter_opts$head_institutions, multiple = TRUE,
+                         selected = NULL,
+                         options = list(placeholder = "All")),
+
+          selectizeInput("filter_country",                   "Country",
+                         choices = filter_opts$country, multiple = TRUE,
                          selected = NULL,
                          options = list(placeholder = "All")),
 
