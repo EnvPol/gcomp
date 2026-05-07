@@ -19,13 +19,13 @@ summary_cards_ui <- function(id) {
     ),
 
     value_box(
-      title = "Institutions",
+      title = "Involved institutions",
       value = textOutput(ns("n_institutions")),
       theme = "primary"
     ),
 
     value_box(
-      title = "Countries",
+      title = "Involved countries",
       value = textOutput(ns("n_countries")),
       theme = "primary"
     )

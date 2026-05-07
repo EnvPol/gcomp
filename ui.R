@@ -92,7 +92,7 @@ ui <- page_navbar(
                        icon  = icon("rotate-left"),
                        class = "btn-outline-secondary btn-sm w-100 mt-0 mb-2"),
 
-          tags$hr(class = "my-1"),
+          tags$hr(class = "mt-1 mb-0"),
 
           selectizeInput("filter_institutions",              "Institution",
                          choices = filter_opts$institutions, multiple = TRUE,
@@ -108,7 +108,7 @@ ui <- page_navbar(
                          selected = NULL,
                          options = list(placeholder = "All")),
 
-          tags$hr(class = "my-1"),
+          tags$hr(class = "mt-1 mb-0"),
 
           selectizeInput("filter_public_values_labels",      "Public value labels",
                          choices = filter_opts$public_values_labels, multiple = TRUE,

@@ -46,7 +46,7 @@ documentation_ui <- function(id) {
             tags$dt(class = "col-sm-3", "Variable"),
             tags$dt(class = "col-sm-3", "Response categories"),
             tags$dt(class = "col-sm-6", "Explanation"),
-            tags$hr(),
+            tags$hr(class = "mb-2"),
             
             # --- Rows ---
             tags$dt(class = "col-sm-3", "Project name"),

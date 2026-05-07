@@ -22,7 +22,7 @@ institutional_network_ui <- function(id) {
       tags$p(class = "text-muted small",
              "Each node represents an institution (aggregated at the head unit level). Edges represent institutions that collaborate on the same project. Node size reflects the number of collaborations."),
       tags$p(class = "text-muted small",
-             "Hover over a node to see institution details. Click to highlight its direct connections."),
+             "Zoom in to reveal head unit names. Hover over a node to see sub-unit details. Click to highlight direct connections between nodes."),
     ),
 
     visNetwork::visNetworkOutput(ns("network"), height = "100%")
