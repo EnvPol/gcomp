@@ -587,14 +587,16 @@ dl.row dd {
   border-color: #ffffff !important;
 }
 
-/* Lead strip: light band between hero and stat strip, holds logo + subtitle */
+/* Lead strip: light band between stat strip and map, holds text + logos */
 .overview-lead-strip {
   background-color: #ffffff;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 2rem 2rem;
   margin: 0 -15px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .overview-lead-inner {
@@ -603,11 +605,24 @@ dl.row dd {
   margin-right: auto;
 }
 
+.overview-lead-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
 .overview-lead-logo {
   height: 72px;
   width: auto;
   display: inline-block;
   vertical-align: middle;
+}
+
+.overview-lead-logo-inst {
+  height: 112px;
+  mix-blend-mode: multiply;
 }
 
 /* Subtitle on light background (replaces the dark-hero variant) */
@@ -1114,5 +1129,3 @@ dl.row dd {
   color: #9aa4ae;
   line-height: 1.3;
 }
-
-                                                     

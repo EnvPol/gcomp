@@ -15,7 +15,7 @@ overview_ui <- function(id) {
         div(class = "row justify-content-center",
           div(class = "col-xl-7 col-lg-9 col-md-11 text-center",
 
-            tags$p(class = "overview-eyebrow", "TwinPolitics Project"),
+            tags$p(class = "overview-eyebrow", "ERC TwinPolitics Project"),
 
             tags$h1(class = "overview-title",
               "Global Catalogue of Ocean Modelling Projects"
@@ -83,13 +83,6 @@ overview_ui <- function(id) {
 
     # ---- Lead text + logo strip ----------------------------------------------
     div(class = "overview-lead-strip",
-      div(class = "flex-shrink-0 me-4",
-        tags$img(
-          src   = "twinpolitics-logo-color.png",
-          alt   = "TwinPolitics",
-          class = "overview-lead-logo"
-        )
-      ),
       div(
         tags$p(class = "overview-subtitle-light mb-1",
           "A catalogue of ocean modelling projects"
@@ -99,6 +92,23 @@ overview_ui <- function(id) {
         ),
         tags$p(class = "overview-lead mb-0",
           "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident."
+        )
+      ),
+      div(class = "overview-lead-logos mt-4",
+        tags$img(
+          src   = "erc_eu_logo.jpg",
+          alt   = "European Research Council",
+          class = "overview-lead-logo overview-lead-logo-inst"
+        ),
+        tags$img(
+          src   = "twinpolitics-logo-color.png",
+          alt   = "TwinPolitics",
+          class = "overview-lead-logo"
+        ),
+        tags$img(
+          src   = "univie_logo.jpg",
+          alt   = "Universität Wien",
+          class = "overview-lead-logo overview-lead-logo-inst"
         )
       )
     ),

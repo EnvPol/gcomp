@@ -20,9 +20,9 @@ institutional_network_ui <- function(id) {
       tags$h6("Institutional network", class = "fw-bold text-uppercase mb-3",
               style = "letter-spacing: 0.05em; font-size: 0.75rem;"),
       tags$p(class = "text-muted small",
-             "Each node represents an institution (aggregated at the head unit level). Edges represent institutions that collaborate on the same project. Node size reflects the number of collaborations."),
+             "Each node represents an institution (aggregated at the head institution level). Edges represent institutions that collaborate on the same project. Node size reflects the number of collaborations."),
       tags$p(class = "text-muted small",
-             "Zoom in to reveal head unit names. Hover over a node to see sub-unit details. Click to highlight direct connections between nodes."),
+             "Zoom in to reveal head institution names. Hover over a node to see sub-unit details. Click to highlight direct connections between nodes."),
     ),
 
     visNetwork::visNetworkOutput(ns("network"), height = "100%")

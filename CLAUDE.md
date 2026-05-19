@@ -28,8 +28,8 @@ to_github/
   ui.R                          # top-level layout (page_navbar + sidebar + sub-tabs)
   server.R                      # filtered_projects reactive, filter reset, module calls
   data/
-    projects.xlsx               # primary dataset (one row per project)
-    institutions.xlsx           # institution lookup table
+    projects.csv                # primary dataset (one row per project)
+    institutions.csv            # institution lookup table
     *_cache.rds                 # auto-generated RDS caches (gitignored)
   modules/
     mod_overview.R              # landing page summary
@@ -65,7 +65,7 @@ to_github/
 
 ## Data model
 
-### projects.xlsx
+### projects.csv
 
 One row per project. Column names are snake_cased at load time via `clean_col_name()` in global.R. Key columns:
 
@@ -76,7 +76,7 @@ One row per project. Column names are snake_cased at load time via `clean_col_na
 | `country_display` | string | pre-computed readable names, added in global.R |
 | `institutions_clean` | string | semicolon-separated institution names |
 | `head_institutions` | string | semicolon-separated head unit names |
-| `institution_ids` | string | semicolon-separated integer IDs linking to institutions.xlsx |
+| `institution_ids` | string | semicolon-separated integer IDs linking to institutions.csv |
 | `public_values_labels` | string | semicolon-separated (multi-value) |
 | `data_types` | string | semicolon-separated (multi-value) |
 | `data_collection_methods` | string | semicolon-separated (multi-value) |
@@ -92,15 +92,15 @@ One row per project. Column names are snake_cased at load time via `clean_col_na
 
 Single-value categoricals are lowercased and trimmed at load time.
 
-### institutions.xlsx
+### institutions.csv
 
 Lookup table. Key columns after snake_casing:
 
 | Column | Notes |
 |---|---|
-| `inst_id` | integer, joins to `institution_ids` in projects |
+| `institution_id` | integer, joins to `institution_ids` in projects |
 | `cleaned_institution_name` | display name |
-| `head_unit` | parent organisation (used for network nodes) |
+| `head_institution` | parent organisation (used for network nodes) |
 | `country_iso2` | single ISO2 code |
 | `country_name` | pre-computed in global.R via countrycode |
 | `homepage` | URL |
@@ -113,7 +113,7 @@ Lookup table. Key columns after snake_casing:
 
 Everything in global.R runs once at startup and is shared across sessions. This includes:
 
-- **RDS caching**: `projects.xlsx` and `institutions.xlsx` are read via `.load_cached()`, which writes `.rds` files next to the source and re-reads them if the cache is newer. Cache files are gitignored.
+- **RDS caching**: `projects.csv` and `institutions.csv` are read via `.load_cached()`, which writes `.rds` files next to the source and re-reads them if the cache is newer. Cache files are gitignored.
 - **`world_centroids`**: pre-computed from rnaturalearth and cached as `data/world_centroids_cache.rds`. Used by `mod_country_map.R`.
 - **`inst_nodes` / `inst_edges`**: pre-computed visNetwork objects for the institutional network. Computed from the full institutions + projects data. All intermediate objects are `rm()`-ed after.
 - **`country_display` column**: added to `projects` by mapping `countries_iso2` through `countrycode` once, rather than per-render.
@@ -247,7 +247,7 @@ Edit the `select()` call in `display_data` inside `mod_project_browser.R`. Colum
 
 ### New data column
 
-Add it to `projects.xlsx`. If it's a categorical, add it to `categorical_cols` in global.R so it gets lowercased/trimmed. If it's multi-value (semicolon-separated), use `count_multivalue()` and `filter_multivalue()`.
+Add it to `projects.csv`. If it's a categorical, add it to `categorical_cols` in global.R so it gets lowercased/trimmed. If it's multi-value (semicolon-separated), use `count_multivalue()` and `filter_multivalue()`.
 
 ---
 
@@ -256,7 +256,7 @@ Add it to `projects.xlsx`. If it's a categorical, add it to `categorical_cols` i
 - **Country filter uses display names in the UI but ISO2 internally.** The filter converts selected names back to ISO2 via `countrycode` before matching against `countries_iso2`. Do not match on display names directly.
 - **`institutions_clean` vs `head_institutions`:** `institutions_clean` is the full individual institution name; `head_institutions` is the parent/umbrella organisation. The network graph runs on `head_institutions` (via `inst_id` -> `head_unit` lookup), not on `institutions_clean`.
 - **Font loading:** bslib's `font_google()` makes a network call at startup that was causing slow cold starts. Fonts are now loaded via `@import` in `custom.css` and passed to `bs_theme()` as plain strings.
-- **RDS caches are gitignored** (`data/*_cache.rds`). On a fresh clone, the first run reads from Excel and writes the caches. Subsequent runs use the caches unless the `.xlsx` is newer.
+- **RDS caches are gitignored** (`data/*_cache.rds`). On a fresh clone, the first run reads from CSV and writes the caches. Subsequent runs use the caches unless the `.csv` is newer.
 - **`world_centroids` cache is NOT gitignored** (it has no source file timestamp to compare against and is stable). It's stored as `data/world_centroids_cache.rds`.
 - **Plotly `displayModeBar = FALSE`** on all charts — the mode bar was cluttering small cards.
 - **Project browser height** is synced to the sidebar height via a JS snippet at the bottom of ui.R's `layout_sidebar`.

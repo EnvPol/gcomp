@@ -231,28 +231,28 @@ if (file.exists(.centroids_rds)) {
 # Computed once at startup; all sessions read inst_nodes / inst_edges directly.
 # ==============================================================================
 
-# 1. Lookup: inst_id -> head_unit
+# 1. Lookup: institution_id -> head_institution
 .inst_to_head <- institutions |>
-  filter(!is.na(head_unit), !is.na(inst_id)) |>
-  select(inst_id, head_unit)
+  filter(!is.na(head_institution), !is.na(institution_id)) |>
+  select(institution_id, head_institution)
 
-# 2. Base nodes: one row per head_unit
+# 2. Base nodes: one row per head_institution
 .nodes_raw <- institutions |>
-  filter(!is.na(head_unit)) |>
-  group_by(head_unit) |>
+  filter(!is.na(head_institution)) |>
+  group_by(head_institution) |>
   summarise(
     country = first(na.omit(country_name)),
     .groups = "drop"
   ) |>
-  mutate(id = head_unit) |>
-  rename(label = head_unit) |>
+  mutate(id = head_institution) |>
+  rename(label = head_institution) |>
   select(id, label, country)
 
 # 3. Tooltip links: one link per sub-institution with a homepage
 .inst_links <- institutions |>
-  filter(!is.na(head_unit), !is.na(homepage), nzchar(homepage)) |>
-  distinct(head_unit, cleaned_institution_name, .keep_all = TRUE) |>
-  group_by(head_unit) |>
+  filter(!is.na(head_institution), !is.na(homepage), nzchar(homepage)) |>
+  distinct(head_institution, cleaned_institution_name, .keep_all = TRUE) |>
+  group_by(head_institution) |>
   summarise(
     links_html = paste(
       paste0(
@@ -268,7 +268,7 @@ if (file.exists(.centroids_rds)) {
   )
 
 .nodes_raw <- .nodes_raw |>
-  left_join(.inst_links, by = c("id" = "head_unit")) |>
+  left_join(.inst_links, by = c("id" = "head_institution")) |>
   mutate(
     links_html = coalesce(
       links_html,
@@ -283,8 +283,8 @@ if (file.exists(.centroids_rds)) {
     head_units = map(institution_ids, function(id_str) {
       ids   <- as.integer(str_trim(str_split(id_str, ";")[[1]]))
       heads <- .inst_to_head |>
-        filter(inst_id %in% ids) |>
-        pull(head_unit)
+        filter(institution_id %in% ids) |>
+        pull(head_institution)
       unique(na.omit(heads))
     })
   ) |>
