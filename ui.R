@@ -410,8 +410,8 @@ ui <- page_navbar(
                  style = "height:56px; mix-blend-mode:multiply;")
       ),
       tags$span(
-        style = "font-size:0.68rem; color:#9aa4ae; line-height:1.3; text-align:right;",
-        "This project has received funding from the European Research Council (ERC) ",
+        style = "font-size:0.68rem; color:#9aa4ae; line-height:1.3; text-align:left;",
+        "The TwinPolitics project has received funding from the European Research Council (ERC) ",
         "under the European Union's Horizon Europe research and innovation programme ",
         "(grant agreement No 101124903 – TwinPolitics – ERC-2023-CoG)."
       )

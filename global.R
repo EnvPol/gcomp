@@ -16,7 +16,6 @@
 library(shiny)
 library(bslib)
 library(dplyr)
-library(readxl)
 library(DT)
 library(ggplot2)
 library(plotly)
@@ -124,23 +123,23 @@ app_theme <- bs_theme(
 
 # ==============================================================================
 # DATA LOADING
-# Reads Excel on first run and caches as .rds. Cache is invalidated when the
+# Reads CSV on first run and caches as .rds. Cache is invalidated when the
 # source file is newer than the cache.
 # ==============================================================================
 
-.load_cached <- function(xlsx_path, rds_path) {
+.load_cached <- function(csv_path, rds_path) {
   if (file.exists(rds_path) &&
-      file.mtime(rds_path) >= file.mtime(xlsx_path)) {
+      file.mtime(rds_path) >= file.mtime(csv_path)) {
     readRDS(rds_path)
   } else {
-    df <- read_excel(xlsx_path)
+    df <- read.csv(csv_path, stringsAsFactors = FALSE, check.names = FALSE)
     saveRDS(df, rds_path)
     df
   }
 }
 
-projects_raw     <- .load_cached("data/projects.xlsx",      "data/projects_cache.rds")
-institutions_raw <- .load_cached("data/institutions.xlsx",  "data/institutions_cache.rds")
+projects_raw     <- .load_cached("data/projects.csv",      "data/projects_cache.rds")
+institutions_raw <- .load_cached("data/institutions.csv",  "data/institutions_cache.rds")
 
 
 # ==============================================================================
