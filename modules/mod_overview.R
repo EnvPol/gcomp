@@ -85,13 +85,30 @@ overview_ui <- function(id) {
     div(class = "overview-lead-strip",
       div(
         tags$p(class = "overview-subtitle-light mb-1",
-          "A catalogue of ocean modelling projects"
+          "ERC TwinPolitics Global Catalogue of Ocean Modelling Projects (GCOMP)"
         ),
         tags$p(class = "overview-lead mb-2",
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+          "The Global Catalogue of Ocean Modelling Projects is a curated dataset designed to improve
+          the visibility and accessibility of ocean modelling initiatives worldwide. It compiles
+          institutionalized projects that virtually represent ocean-related activities and systematically
+          records information on their institutional and national affiliations, public values,
+          application domains, and decision-support functions. The catalogue supports research on
+          the global ocean modelling landscape and helps identify application gaps, global disparities,
+          and opportunities for project integration."
         ),
-        tags$p(class = "overview-lead mb-0",
-          "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident."
+        tags$p(class = "overview-lead mb-2",
+          HTML(paste0(
+            "This dashboard provides users with data exploration, filtering, download, and visualization tools. ",
+            "A full version of the data can be ",
+            "<a href='#' onclick=\"$('a[data-value=&quot;Documentation&quot;]').tab('show'); return false;\">downloaded here</a>",
+            ". Filtered data can be downloaded via the ",
+            "<a href='#' onclick=\"$('a[data-value=&quot;Data explorer&quot;]').tab('show'); setTimeout(function(){ $('a[data-value=&quot;Project browser&quot;]').tab('show'); }, 150); return false;\">project browser</a>",
+            "."
+          ))
+        ),
+        tags$p(class = "overview-lead mb-2",
+          "The catalogue is a collective research effort as part of the TwinPolitics project at
+          the University of Vienna. The project is funded by the European Research Council (ERC) and led by Prof. Alice Vadrot."
         )
       ),
       div(class = "overview-lead-logos mt-4",

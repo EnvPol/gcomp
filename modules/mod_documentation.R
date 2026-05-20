@@ -15,21 +15,83 @@ documentation_ui <- function(id) {
 
     div(
       class = "col-lg-8 col-md-10 col-12",
-
-      # --- About section ---
+      
+      # --- Download data ---
       card(
         class = "mb-4",
-        card_header(tags$h5("About GCOMP", class = "mb-0")),
+        card_header(tags$h5("Download data", class = "mb-0")),
         card_body(
 
-          p("[PROJECT DESCRIPTION]"),
-          
-          p("The project is
-            part of the ", tags$a("TwinPolitics", href = "https://twinpolitics.eu",
-                                  target = "_blank"), " project."),
+          # Full project dataset
+          div(class = "doc-download-row",
+            div(class = "doc-download-info",
+              tags$h6("Full project dataset"),
+              tags$p(class = "text-muted small mb-0",
+                "Catalogue of all ", textOutput(ns("n_total"), inline = TRUE), " ocean modelling projects.")
+            ),
+            div(class = "doc-download-btns",
+              downloadButton(ns("download_full_csv"),   label = "CSV",   icon = icon("file-csv"),   class = "btn-sm btn-outline-primary me-1"),
+              downloadButton(ns("download_full_excel"), label = "Excel", icon = icon("file-excel"), class = "btn-sm btn-outline-primary")
+            )
+          ),
 
-          p("The dataset currently covers ", tags$strong(textOutput(ns("n_total"),
-            inline = TRUE)), " projects and is updated as new projects are identified.")
+          tags$hr(class = "my-1"),
+
+          # Institution dictionary
+          div(class = "doc-download-row",
+            div(class = "doc-download-info",
+              tags$h6("Institution dictionary"),
+              tags$p(class = "text-muted small mb-0",
+                "Lookup table of all institutions in the catalogue, including head institution, country, and website.")
+            ),
+            div(class = "doc-download-btns",
+              downloadButton(ns("download_inst_csv"),   label = "CSV",   icon = icon("file-csv"),   class = "btn-sm btn-outline-primary me-1"),
+              downloadButton(ns("download_inst_excel"), label = "Excel", icon = icon("file-excel"), class = "btn-sm btn-outline-primary")
+            )
+          ),
+
+          tags$hr(class = "my-1"),
+
+          # GitHub link
+          div(class = "doc-download-row align-items-center",
+            div(class = "doc-download-info",
+              tags$h6("Source code"),
+              tags$p(class = "text-muted small mb-0", "Data collection and processing code (Python).")
+            ),
+            div(class = "doc-download-btns",
+              tags$a(
+                href   = "#",   # placeholder: add GitHub URL here
+                target = "_blank",
+                class  = "btn btn-sm btn-outline-secondary",
+                icon("github"), tags$span(class = "ms-1", "View on GitHub")
+              )
+            )
+          )
+
+        )
+      ),
+      
+      # --- Methods section ---
+      card(
+        class = "mb-4",
+        card_header(tags$h5("Methods", class = "mb-0")),
+        card_body(
+          
+          p("The project database was compiled through a systematic literature search in The Lens,
+            an open-access scholarly database, combining modelling-related terms
+            (e.g. \"digital twin\", \"virtual representation\") with ocean-related terminology.
+            The initial corpus of 5,016 publications was imported into Zotero for deduplication
+            and screening, removing duplicates and non-primary literature. This process yielded 3,510
+            unique entries, which formed the basis for the systematic identification of ocean modelling projects."),
+          
+          p("The literature entries were divided among eight researchers who systematically reviewed them to identify
+            digital ocean model projects, entering relevant projects into a matrix guided by a joint codebook.
+            Only projects meeting a defined set of inclusion criteria were documented: digital ocean models with a
+            significant level of institutionalization and at least some potential to create public value,
+            while weather-related models and purely private-benefit projects were excluded.
+            For each project, the researchers coded a range of variables based on the literature entries and project websites.
+            Variables such as public value and technical objectives were collected from the projects own descriptions, to stay
+            close to their own presentation rather than interpretation by the researchers.")
         )
       ),
 
@@ -144,15 +206,6 @@ documentation_ui <- function(id) {
         )
       ),
 
-      # --- Methods section ---
-      card(
-        class = "mb-4",
-        card_header(tags$h5("Data collection methods", class = "mb-0")),
-        card_body(
-          p(em("Methodology description to be added."))
-        )
-      ),
-
       # --- Citation ---
       card(
         class = "mb-4",
@@ -174,6 +227,17 @@ documentation_ui <- function(id) {
             tags$a("twinpolitics.eu", href = "https://twinpolitics.eu",
                    target = "_blank"))
         )
+      ),
+      
+      # --- Funding ---
+      card(
+        class = "mb-4",
+        card_header(tags$h5("Funding", class = "mb-0")),
+        card_body(
+          p("The TwinPolitics project has received funding from the European Research Council (ERC)
+            under the European Union's Horizon Europe research and innovation programme
+            (grant agreement No 101124903 – TwinPolitics – ERC-2023-CoG).")
+        )
       )
 
     ) # end col
@@ -188,6 +252,28 @@ documentation_server <- function(id) {
     output$n_total <- renderText({
       nrow(projects)
     })
+
+    # ---- Full dataset downloads ----------------------------------------------
+    output$download_full_csv <- downloadHandler(
+      filename = function() paste0("twinpolitics_gcomp_", Sys.Date(), ".csv"),
+      content  = function(file) write.csv(projects, file, row.names = FALSE)
+    )
+
+    output$download_full_excel <- downloadHandler(
+      filename = function() paste0("twinpolitics_gcomp_", Sys.Date(), ".xlsx"),
+      content  = function(file) writexl::write_xlsx(projects, file)
+    )
+
+    # ---- Institution dictionary downloads ------------------------------------
+    output$download_inst_csv <- downloadHandler(
+      filename = function() paste0("twinpolitics_gcomp_institutions_", Sys.Date(), ".csv"),
+      content  = function(file) write.csv(institutions, file, row.names = FALSE)
+    )
+
+    output$download_inst_excel <- downloadHandler(
+      filename = function() paste0("twinpolitics_gcomp_institutions_", Sys.Date(), ".xlsx"),
+      content  = function(file) writexl::write_xlsx(institutions, file)
+    )
 
   })
 }

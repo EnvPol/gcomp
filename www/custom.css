@@ -1129,3 +1129,32 @@ dl.row dd {
   color: #9aa4ae;
   line-height: 1.3;
 }
+
+
+/* =============================================================================
+   DOCUMENTATION — DOWNLOAD ROWS
+   Each row: dataset label/description on the left, buttons on the right.
+============================================================================= */
+
+.doc-download-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.doc-download-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.doc-download-info h6 {
+  margin-bottom: 0.2rem;
+  color: #002F62;
+}
+
+.doc-download-btns {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
