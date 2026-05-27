@@ -12,4 +12,4 @@ jobs:
 
       - run: |
           git remote add org-mirror https://x-access-token:${{ secrets.ORG_REPO_PAT }}@github.com/EnvPol/gcomp.git
-          git push org-mirror HEAD:main --force
+          git push org-mirror HEAD:refs/heads/master --force
