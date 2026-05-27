@@ -60,9 +60,9 @@ documentation_ui <- function(id) {
             ),
             div(class = "doc-download-btns",
               tags$a(
-                href   = "#",   # placeholder: add GitHub URL here
+                href   = "https://github.com/pduns/GCOMP/",
                 target = "_blank",
-                class  = "btn btn-sm btn-outline-secondary",
+                class  = "btn btn-sm btn-outline-primary",
                 icon("github"), tags$span(class = "ms-1", "View on GitHub")
               )
             )
@@ -213,18 +213,6 @@ documentation_ui <- function(id) {
           p("See also our ", tags$a("data insights paper", href = "https://doi.org", target = "_blank"), "in the Earth System Governance journal.")
         )
       ),
-
-      # --- Contact ---
-      card(
-        class = "mb-4",
-        card_header(tags$h5("Contact", class = "mb-0")),
-        card_body(
-          p("For questions about the Global Catalogue of Ocean Modelling Projects or to report corrections,
-            please contact the project team via ",
-            tags$a("twinpolitics.eu", href = "https://twinpolitics.eu",
-                   target = "_blank"))
-        )
-      ),
       
       # --- Funding ---
       card(
@@ -234,6 +222,18 @@ documentation_ui <- function(id) {
           p("The TwinPolitics project has received funding from the European Research Council (ERC)
             under the European Union's Horizon Europe research and innovation programme
             (grant agreement No 101124903 – TwinPolitics – ERC-2023-CoG).")
+        )
+      ),
+      
+      # --- Contact ---
+      card(
+        class = "mb-4",
+        card_header(tags$h5("Contact", class = "mb-0")),
+        card_body(
+          p("For questions about the Global Catalogue of Ocean Modelling Projects or to report corrections,
+            please contact the project team via the ",
+            tags$a("twinpolitics.eu", href = "https://twinpolitics.eu",
+                   target = "_blank"), "website.")
         )
       )
 

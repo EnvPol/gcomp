@@ -145,7 +145,7 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
             list(targets = 0,         className = "dt-col-name",   width = "200px"),
             list(targets = 20,        className = "dt-col-narrow", width = "100px"),
             list(targets = c(4, 5, 6),className = "dt-col-clip",   width = "150px"),
-            list(targets = c(1:3, 7:19, 21:22), className = "dt-col-clip", width = "110px")
+            list(targets = c(1:3, 7:19, 21),    className = "dt-col-clip", width = "110px")
           ),
           dom ="<'d-flex align-items-center justify-content-between pt-1 pb-0 px-3'<''l>>t<'d-flex align-items-center justify-content-between pt-0 pb-1 px-3'ip>",
           language = list(search = ""),

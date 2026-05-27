@@ -404,7 +404,16 @@ ui <- page_navbar(
         style = "font-size:0.68rem; color:#9aa4ae; line-height:1.3; text-align:center;",
         "The TwinPolitics project has received funding from the European Research Council (ERC) ",
         "under the European Union's Horizon Europe research and innovation programme ",
-        "(grant agreement No 101124903 – TwinPolitics – ERC-2023-CoG)."
+        "(grant agreement No 101124903 – TwinPolitics – ERC-2023-CoG).",
+        tags$span(style = "margin: 0 0.5rem; opacity: 0.4;", "|"),
+        "Dashboard built by ",
+        tags$a(
+          href   = "https://www.linkedin.com/in/emil-w-hildebrand-55274617b/",
+          target = "_blank",
+          style  = "color:#9aa4ae; text-decoration:underline;",
+          "Emil W. Hildebrand"
+        ),
+        "."
       )
     )
   )
