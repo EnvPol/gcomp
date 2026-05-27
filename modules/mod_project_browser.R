@@ -88,8 +88,7 @@ project_browser_server <- function(id, data, filter_active = reactive(FALSE)) {
           "What-if modelling"     = what_if_modelling,
           "Decision support"      = decision_support_function,
           "Homepage"              = homepages,
-          "Other sources"         = other_relevant_sources,
-          "Notes"                 = notes
+          "Other sources"         = other_relevant_sources
         )
     })
 

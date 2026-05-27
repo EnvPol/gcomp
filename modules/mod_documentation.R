@@ -199,9 +199,6 @@ documentation_ui <- function(id) {
             tags$dd(class = "col-sm-3", "open"),
             tags$dd(class = "col-sm-6", "Other informational sources on the project"),
             
-            tags$dt(class = "col-sm-3", "Notes"),
-            tags$dd(class = "col-sm-3", "open"),
-            tags$dd(class = "col-sm-6", "Any qualifying comments")
           )
         )
       ),
