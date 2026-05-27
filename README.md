@@ -1,6 +1,6 @@
 # TwinPolitics GCOMP Dashboard
 
-An interactive R Shiny dashboard cataloguing ocean modelling projects for the [TwinPolitics](https://twinpolitics.eu) project (ERC grant 101124903).
+An interactive R Shiny dashboard cataloguing ocean modelling projects worldwide, built for the [TwinPolitics](https://twinpolitics.eu) project (ERC grant 101124903).
 
 ## Structure
 
@@ -9,7 +9,7 @@ An interactive R Shiny dashboard cataloguing ocean modelling projects for the [T
 ├── global.R                 Packages, theme, data loading, shared globals
 ├── server.R                 Reactive logic and module calls
 ├── ui.R                     Top-level layout
-├── data/                    Source Excel files and RDS cache
+├── data/                    Source CSV files and RDS cache
 ├── www/
 │   └── custom.css           App-wide styles (TwinPolitics theme)
 └── modules/
@@ -37,7 +37,7 @@ An interactive R Shiny dashboard cataloguing ocean modelling projects for the [T
 
 ## Data flow
 
-1. **`global.R`** reads two Excel files (`projects.xlsx`, `institutions.xlsx`), cleans column names, and pre-computes shared objects (world centroids, network nodes/edges, country display names). All objects are cached to `.rds` so subsequent startups skip the expensive steps.
+1. **`global.R`** reads two CSV files (`projects.csv`, `institutions.csv`), cleans column names, and pre-computes shared objects (world centroids, network nodes/edges, country display names). All objects are cached to `.rds` so subsequent startups skip the expensive steps.
 
 2. **`server.R`** exposes `filtered_projects`, a reactive that applies all sidebar filter inputs. Every module receives this reactive as its `data` argument and re-renders automatically when filters change.
 
@@ -59,7 +59,7 @@ An interactive R Shiny dashboard cataloguing ocean modelling projects for the [T
 
 ## Updating the data
 
-Replace `data/projects.xlsx` or `data/institutions.xlsx`. The app picks up changes on next startup and invalidates the `.rds` cache automatically. If columns are renamed, update `categorical_cols` and `filter_opts` in `global.R` and any module that references the column directly.
+Replace `data/projects.csv` or `data/institutions.csv`. The app picks up changes on next startup and invalidates the `.rds` cache automatically. If columns are renamed, update `categorical_cols` and `filter_opts` in `global.R` and any module that references the column directly.
 
 ## Theme
 
